@@ -15,4 +15,7 @@ data class JsonResult<T>(
     }
 }
 
-// TODO: PageResult和Result
+data class QueryResult<T>(
+    val total: Long,
+    val records: List<T>,
+)

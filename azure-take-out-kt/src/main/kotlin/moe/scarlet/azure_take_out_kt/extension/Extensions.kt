@@ -1,5 +1,7 @@
 package moe.scarlet.azure_take_out_kt.extension
 
+import com.baomidou.mybatisplus.core.metadata.IPage
+import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.security.MessageDigest
@@ -10,6 +12,9 @@ import java.security.MessageDigest
 inline val <reified T> T.logger: Logger
     get() = LoggerFactory.getLogger(T::class.java)
 
+/**
+ * 加密使用
+ */
 private val hexDigits = "0123456789abcdef".toCharArray()
 
 fun ByteArray.toHexString() = buildString(this.size shl 1) {
@@ -24,3 +29,5 @@ fun String.toMD5(): String {
     val digest = md.digest(this.toByteArray())
     return digest.toHexString()
 }
+
+fun <T> IPage<T>.asQueryResult() = QueryResult<T>(this.total, this.records)

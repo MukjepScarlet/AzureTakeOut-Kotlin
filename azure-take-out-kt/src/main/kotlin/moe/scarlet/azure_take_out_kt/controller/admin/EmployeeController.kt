@@ -2,10 +2,7 @@ package moe.scarlet.azure_take_out_kt.controller.admin
 
 import moe.scarlet.azure_take_out_kt.constant.JwtClaimsConstant
 import moe.scarlet.azure_take_out_kt.extension.logger
-import moe.scarlet.azure_take_out_kt.pojo.EmployeeDTO
-import moe.scarlet.azure_take_out_kt.pojo.EmployeeLoginDTO
-import moe.scarlet.azure_take_out_kt.pojo.EmployeeLoginVO
-import moe.scarlet.azure_take_out_kt.pojo.JsonResult
+import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.property.JwtProperties
 import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import moe.scarlet.azure_take_out_kt.util.JwtUtil
@@ -42,6 +39,12 @@ class EmployeeController(
         logger.info("新增员工: $employeeDTO")
         employeeService.save(employeeDTO)
         return JsonResult.success()
+    }
+
+    @GetMapping("/page")
+    fun query(employeePageQueryDTO: EmployeePageQueryDTO): JsonResult<QueryResult<Employee>> {
+        logger.info("分页查询(员工): $employeeService")
+        return JsonResult.success(employeeService.pageQuery(employeePageQueryDTO))
     }
 
 }

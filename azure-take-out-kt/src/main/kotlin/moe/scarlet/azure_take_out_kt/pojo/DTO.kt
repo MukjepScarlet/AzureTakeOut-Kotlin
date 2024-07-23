@@ -17,3 +17,10 @@ data class EmployeeDTO(
     val sex: String,
     val idNumber: String
 )
+
+@Schema(description = "员工分页查询")
+data class EmployeePageQueryDTO(
+    val name: String?,
+    val page: Long,
+    val pageSize: Long,
+)

@@ -22,7 +22,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.7")
-	implementation("com.github.xiaoymin:knife4j-spring-boot-starter:3.0.2")
+	implementation("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 	implementation("io.jsonwebtoken:jjwt:0.12.5")

@@ -1,0 +1,180 @@
+package moe.scarlet.azure_take_out_kt.pojo
+
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
+import java.math.BigDecimal
+import java.time.LocalDateTime
+
+@TableName("address_book")
+data class AddressBook(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val userId: Long,
+    val consignee: String?,
+    val sex: String?,
+    val phone: String,
+    val provinceCode: String?,
+    val provinceName: String?,
+    val cityCode: String?,
+    val cityName: String?,
+    val districtCode: String?,
+    val districtName: String?,
+    val detail: String?,
+    val label: String?,
+    val isDefault: Byte = 0
+)
+
+@TableName("category")
+data class Category(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val type: Int?,
+    val name: String,
+    val sort: Int = 0,
+    val status: Int?,
+    val createTime: LocalDateTime?,
+    val updateTime: LocalDateTime?,
+    val createUser: Long?,
+    val updateUser: Long?
+)
+
+@TableName("dish")
+data class Dish(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val name: String,
+    val categoryId: Long,
+    val price: BigDecimal?,
+    val image: String?,
+    val description: String?,
+    val status: Int? = 1,
+    val createTime: LocalDateTime?,
+    val updateTime: LocalDateTime?,
+    val createUser: Long?,
+    val updateUser: Long?
+)
+
+@TableName("dish_flavor")
+data class DishFlavor(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val dishId: Long,
+    val name: String?,
+    val value: String?
+)
+
+@TableName("employee")
+data class Employee(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val name: String,
+    val username: String,
+    val password: String, // 数据库中存储MD5密文
+    val phone: String,
+    val sex: String,
+    val idNumber: String,
+    val status: Int = 1,
+    val createTime: LocalDateTime?,
+    val updateTime: LocalDateTime?,
+    val createUser: Long?,
+    val updateUser: Long?
+)
+
+@TableName("order_detail")
+data class OrderDetail(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val name: String?,
+    val image: String?,
+    val orderId: Long,
+    val dishId: Long?,
+    val setmealId: Long?,
+    val dishFlavor: String?,
+    val number: Int = 1,
+    val amount: BigDecimal
+)
+
+@TableName("orders")
+data class Orders(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val number: String?,
+    val status: Int = 1,
+    val userId: Long,
+    val addressBookId: Long,
+    val orderTime: LocalDateTime,
+    val checkoutTime: LocalDateTime?,
+    val payMethod: Int = 1,
+    val payStatus: Byte = 0,
+    val amount: BigDecimal,
+    val remark: String?,
+    val phone: String,
+    val address: String?,
+    val userName: String?,
+    val consignee: String?,
+    val cancelReason: String?,
+    val rejectionReason: String?,
+    val cancelTime: LocalDateTime?,
+    val estimatedDeliveryTime: LocalDateTime?,
+    val deliveryStatus: Byte = 1,
+    val deliveryTime: LocalDateTime?,
+    val packAmount: Int?,
+    val tablewareNumber: Int?,
+    val tablewareStatus: Byte = 1,
+)
+
+@TableName("setmeal")
+data class SetMeal(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val categoryId: Long,
+    val name: String,
+    val price: BigDecimal,
+    val status: Int? = 1,
+    val description: String?,
+    val image: String?,
+    val createTime: LocalDateTime?,
+    val updateTime: LocalDateTime?,
+    val createUser: Long?,
+    val updateUser: Long?
+)
+
+@TableName("setmeal_dish")
+data class SetMealDish(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val setmealId: Long?,
+    val dishId: Long?,
+    val name: String?,
+    val price: BigDecimal?,
+    val copies: Int?
+)
+
+@TableName("shopping_cart")
+data class ShoppingCart(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val name: String?,
+    val image: String?,
+    val userId: Long,
+    val dishId: Long?,
+    val setmealId: Long?,
+    val dishFlavor: String?,
+    val number: Int = 1,
+    val amount: BigDecimal,
+    val createTime: LocalDateTime?
+)
+
+@TableName("user")
+data class User(
+    @TableId(type = IdType.AUTO)
+    val id: Long,
+    val openid: String?,
+    val name: String?,
+    val phone: String?,
+    val sex: String?,
+    val idNumber: String?,
+    val avatar: String?,
+    val createTime: LocalDateTime?
+)

@@ -12,3 +12,7 @@ object EmployeeStatus {
     const val ENABLE: Int = 1
     const val DISABLE: Int = 0
 }
+
+object PasswordConstant {
+    const val DEFAULT_PASSWORD = "123456"
+}

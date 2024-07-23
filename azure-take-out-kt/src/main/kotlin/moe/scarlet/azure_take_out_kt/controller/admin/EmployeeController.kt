@@ -2,16 +2,14 @@ package moe.scarlet.azure_take_out_kt.controller.admin
 
 import moe.scarlet.azure_take_out_kt.constant.JwtClaimsConstant
 import moe.scarlet.azure_take_out_kt.extension.logger
+import moe.scarlet.azure_take_out_kt.pojo.EmployeeDTO
 import moe.scarlet.azure_take_out_kt.pojo.EmployeeLoginDTO
 import moe.scarlet.azure_take_out_kt.pojo.EmployeeLoginVO
 import moe.scarlet.azure_take_out_kt.pojo.JsonResult
 import moe.scarlet.azure_take_out_kt.property.JwtProperties
 import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import moe.scarlet.azure_take_out_kt.util.JwtUtil
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/admin/employee")
@@ -38,5 +36,12 @@ class EmployeeController(
 
     @PostMapping("/logout")
     fun logout(): JsonResult<Nothing> = JsonResult.success()
+
+    @PostMapping
+    fun add(@RequestBody employeeDTO: EmployeeDTO): JsonResult<Nothing> {
+        logger.info("新增员工: $employeeDTO")
+        employeeService.save(employeeDTO)
+        return JsonResult.success()
+    }
 
 }

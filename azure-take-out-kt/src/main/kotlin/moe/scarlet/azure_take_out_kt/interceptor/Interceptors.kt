@@ -3,6 +3,7 @@ package moe.scarlet.azure_take_out_kt.interceptor
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import moe.scarlet.azure_take_out_kt.constant.JwtClaimsConstant
+import moe.scarlet.azure_take_out_kt.context.CURRENT_EMPLOYEE_ID
 import moe.scarlet.azure_take_out_kt.extension.logger
 import moe.scarlet.azure_take_out_kt.property.JwtProperties
 import moe.scarlet.azure_take_out_kt.util.JwtUtil
@@ -25,6 +26,7 @@ class JwtTokenAdminInterceptor(
             val claims = JwtUtil.parseJWT(jwtProperties.adminSecretKey, token)
             val employeeId = claims[JwtClaimsConstant.EMP_ID].toString().toLong()
             logger.info("解析的员工ID: $employeeId")
+            CURRENT_EMPLOYEE_ID.set(employeeId)
             true
         } catch (e: Exception) {
 //            logger.info(e.localizedMessage)

@@ -3,6 +3,7 @@ package moe.scarlet.azure_take_out_kt.pojo
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import moe.scarlet.azure_take_out_kt.constant.EmployeeStatus
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -74,7 +75,7 @@ data class Employee(
     val phone: String,
     val sex: String,
     val idNumber: String,
-    val status: Int = 1,
+    val status: Int = EmployeeStatus.ENABLE,
     val createTime: LocalDateTime?,
     val updateTime: LocalDateTime?,
     val createUser: Long?,

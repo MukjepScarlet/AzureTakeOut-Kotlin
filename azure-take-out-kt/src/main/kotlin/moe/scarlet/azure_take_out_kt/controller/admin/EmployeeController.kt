@@ -1,4 +1,4 @@
-package moe.scarlet.azure_take_out_kt.controller
+package moe.scarlet.azure_take_out_kt.controller.admin
 
 import moe.scarlet.azure_take_out_kt.constant.JwtClaimsConstant
 import moe.scarlet.azure_take_out_kt.extension.logger

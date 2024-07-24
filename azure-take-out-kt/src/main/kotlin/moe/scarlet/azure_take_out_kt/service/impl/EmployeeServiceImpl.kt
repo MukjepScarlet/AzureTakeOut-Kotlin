@@ -1,4 +1,4 @@
-package moe.scarlet.azure_take_out_kt.service
+package moe.scarlet.azure_take_out_kt.service.impl
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
@@ -12,6 +12,7 @@ import moe.scarlet.azure_take_out_kt.extension.asQueryResult
 import moe.scarlet.azure_take_out_kt.extension.toMD5
 import moe.scarlet.azure_take_out_kt.mapper.EmployeeMapper
 import moe.scarlet.azure_take_out_kt.pojo.*
+import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import kotlin.jvm.optionals.getOrNull

@@ -8,7 +8,7 @@ data class EmployeeLoginDTO(
     val password: String
 )
 
-@Schema(description = "新增员工参数")
+@Schema(description = "新增/修改员工参数")
 data class EmployeeDTO(
     val id: Long?,
     val username: String,

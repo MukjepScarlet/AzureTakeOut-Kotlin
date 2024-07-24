@@ -74,7 +74,7 @@ class EmployeeServiceImpl(
         val (name, page, pageSize) = employeePageQueryDTO
         return employeeMapper.selectPage(
             Page(page, pageSize),
-            KtQueryWrapper(Employee::class.java).like(name != null, Employee::name, name)
+            KtQueryWrapper(Employee::class.java).like(!name.isNullOrEmpty(), Employee::name, name)
         ).asQueryResult()
     }
 

@@ -12,6 +12,10 @@ import moe.scarlet.azure_take_out_kt.extension.asQueryResult
 import moe.scarlet.azure_take_out_kt.extension.toMD5
 import moe.scarlet.azure_take_out_kt.mapper.EmployeeMapper
 import moe.scarlet.azure_take_out_kt.pojo.*
+import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeDTO
+import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeEditPasswordDTO
+import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeLoginDTO
+import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeePageQueryDTO
 import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

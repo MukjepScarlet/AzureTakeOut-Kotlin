@@ -1,4 +1,4 @@
-package moe.scarlet.azure_take_out_kt.pojo
+package moe.scarlet.azure_take_out_kt.pojo.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 

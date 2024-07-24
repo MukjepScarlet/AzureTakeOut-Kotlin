@@ -43,8 +43,15 @@ class EmployeeController(
 
     @GetMapping("/page")
     fun query(employeePageQueryDTO: EmployeePageQueryDTO): JsonResult<QueryResult<Employee>> {
-        logger.info("分页查询(员工): $employeeService")
+        logger.info("分页查询(员工): $employeePageQueryDTO")
         return JsonResult.success(employeeService.pageQuery(employeePageQueryDTO))
+    }
+
+    @PostMapping("/status/{status}")
+    fun status(@PathVariable status: Int, id: Long): JsonResult<Nothing> {
+        logger.info("员工状态设置: $status")
+        employeeService.status(status, id)
+        return JsonResult.success()
     }
 
 }

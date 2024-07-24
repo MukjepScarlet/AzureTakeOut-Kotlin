@@ -1,6 +1,7 @@
 package moe.scarlet.azure_take_out_kt.service
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
+import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.constant.EmployeeStatus
@@ -71,5 +72,11 @@ class EmployeeServiceImpl(
             KtQueryWrapper(Employee::class.java).like(name != null, Employee::name, name)
         ).asQueryResult()
     }
+
+    override fun status(status: Int, id: Long) {
+        // 前端已经检测了账号是否存在
+        this.update(KtUpdateWrapper(Employee::class.java).eq(Employee::id, id).set(Employee::status, status))
+    }
+
 }
 

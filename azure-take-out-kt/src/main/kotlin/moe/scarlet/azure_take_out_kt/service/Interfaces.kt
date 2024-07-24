@@ -8,5 +8,6 @@ interface EmployeeService : IService<Employee> {
     fun login(employeeLoginDTO: EmployeeLoginDTO): Employee
     fun save(employeeDTO: EmployeeDTO)
     fun pageQuery(employeePageQueryDTO: EmployeePageQueryDTO): QueryResult<Employee>
+    fun status(status: Int, id: Long)
 }
 

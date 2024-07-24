@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
-import moe.scarlet.azure_take_out_kt.constant.EmployeeStatus
+import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import moe.scarlet.azure_take_out_kt.constant.PasswordConstant
 import moe.scarlet.azure_take_out_kt.context.CURRENT_EMPLOYEE_ID
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
@@ -40,7 +40,7 @@ class EmployeeServiceImpl(
             throw ExceptionType.PASSWORD_ERROR.asException()
 
         // 检查状态
-        if (employee.status == EmployeeStatus.DISABLE)
+        if (employee.status == StatusConstant.DISABLE)
             throw ExceptionType.ACCOUNT_LOCKED.asException()
 
         return employee

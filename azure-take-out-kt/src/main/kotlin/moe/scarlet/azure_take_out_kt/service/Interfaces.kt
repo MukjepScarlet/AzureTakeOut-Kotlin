@@ -1,10 +1,20 @@
 package moe.scarlet.azure_take_out_kt.service
 
 import com.baomidou.mybatisplus.extension.service.IService
-import moe.scarlet.azure_take_out_kt.pojo.Category
-import moe.scarlet.azure_take_out_kt.pojo.Employee
-import moe.scarlet.azure_take_out_kt.pojo.QueryResult
+import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.*
+
+interface CategoryService : IService<Category> {
+    fun pageQuery(categoryPageQueryDTO: CategoryPageQueryDTO): QueryResult<Category>
+    fun status(status: Int, id: Long)
+    fun save(categoryDTO: CategoryDTO)
+    fun update(categoryDTO: CategoryDTO)
+    fun removeById(id: Long)
+}
+
+interface DishService : IService<Dish> {
+    fun countByCategoryId(categoryId: Long): Long
+}
 
 interface EmployeeService : IService<Employee> {
     fun getByUsername(username: String): Employee?
@@ -16,9 +26,6 @@ interface EmployeeService : IService<Employee> {
     fun editPassword(employeeEditPasswordDTO: EmployeeEditPasswordDTO)
 }
 
-interface CategoryService : IService<Category> {
-    fun pageQuery(categoryPageQueryDTO: CategoryPageQueryDTO): QueryResult<Category>
-    fun status(status: Int, id: Long)
-    fun save(categoryDTO: CategoryDTO)
-    fun update(categoryDTO: CategoryDTO)
+interface SetMealService : IService<SetMeal> {
+    fun countByCategoryId(categoryId: Long): Long
 }

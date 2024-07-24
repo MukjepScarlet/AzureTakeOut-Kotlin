@@ -28,7 +28,7 @@ data class AddressBook(
 data class Category(
     @TableId(type = IdType.AUTO)
     val id: Long,
-    val type: Int?,
+    val type: Int,
     val name: String,
     val sort: Int = 0,
     val status: Int = StatusConstant.DISABLE,

@@ -98,5 +98,16 @@ class EmployeeServiceImpl(
         )
     }
 
+    override fun editPassword(employeeEditPasswordDTO: EmployeeEditPasswordDTO) {
+        val (oldPassword, newPassword) = employeeEditPasswordDTO
+
+        val target = this.getById(CURRENT_EMPLOYEE_ID.get())
+
+        if (oldPassword.toMD5() != target.password)
+            throw ExceptionType.PASSWORD_ERROR.asException()
+
+        this.updateById(target.copy(password = newPassword.toMD5()))
+    }
+
 }
 

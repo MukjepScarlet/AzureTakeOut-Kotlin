@@ -72,4 +72,11 @@ class EmployeeController(
         return JsonResult.success()
     }
 
+    @Operation(summary = "员工修改密码")
+    @PutMapping("/editPassword")
+    fun editPassword(@RequestBody employeeEditPasswordDTO: EmployeeEditPasswordDTO): JsonResult<Nothing> {
+        logger.info("修改密码: $employeeEditPasswordDTO")
+        employeeService.editPassword(employeeEditPasswordDTO)
+        return JsonResult.success()
+    }
 }

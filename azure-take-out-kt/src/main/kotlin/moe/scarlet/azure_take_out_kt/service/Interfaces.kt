@@ -10,5 +10,6 @@ interface EmployeeService : IService<Employee> {
     fun pageQuery(employeePageQueryDTO: EmployeePageQueryDTO): QueryResult<Employee>
     fun status(status: Int, id: Long)
     fun update(employeeDTO: EmployeeDTO)
+    fun editPassword(employeeEditPasswordDTO: EmployeeEditPasswordDTO)
 }
 

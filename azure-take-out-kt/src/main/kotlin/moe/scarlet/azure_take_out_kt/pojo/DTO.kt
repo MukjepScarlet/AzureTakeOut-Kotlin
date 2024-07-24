@@ -18,9 +18,17 @@ data class EmployeeDTO(
     val idNumber: String
 )
 
-@Schema(description = "员工分页查询")
+@Schema(description = "员工分页查询参数")
 data class EmployeePageQueryDTO(
     val name: String?,
     val page: Long,
     val pageSize: Long,
+)
+
+@Schema(description = "员工修改密码参数")
+data class EmployeeEditPasswordDTO(
+//    val empId: Long,
+//    文档有问题, 这个字段不存在, 改为使用当前登录用户的ID
+    val oldPassword: String,
+    val newPassword: String,
 )

@@ -26,7 +26,7 @@ class JwtTokenAdminInterceptor(
             val claims = JwtUtil.parseJWT(jwtProperties.adminSecretKey, token)
             val employeeId = claims[JwtClaimsConstant.EMP_ID].toString().toLong()
             logger.info("解析的员工ID: $employeeId")
-            CURRENT_EMPLOYEE_ID.set(employeeId)
+            CURRENT_EMPLOYEE_ID = employeeId
             true
         } catch (e: Exception) {
 //            logger.info(e.localizedMessage)

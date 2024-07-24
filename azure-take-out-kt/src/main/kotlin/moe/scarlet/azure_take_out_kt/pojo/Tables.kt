@@ -1,7 +1,7 @@
 package moe.scarlet.azure_take_out_kt.pojo
 
 import com.baomidou.mybatisplus.annotation.*
-import moe.scarlet.azure_take_out_kt.constant.EmployeeStatus
+import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -31,7 +31,7 @@ data class Category(
     val type: Int?,
     val name: String,
     val sort: Int = 0,
-    val status: Int?,
+    val status: Int = StatusConstant.DISABLE,
     @TableField(fill = FieldFill.INSERT)
     val createTime: LocalDateTime? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -81,7 +81,7 @@ data class Employee(
     val phone: String,
     val sex: String,
     val idNumber: String,
-    val status: Int = EmployeeStatus.ENABLE,
+    val status: Int = StatusConstant.ENABLE,
     @TableField(fill = FieldFill.INSERT)
     val createTime: LocalDateTime? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)

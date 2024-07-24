@@ -8,7 +8,7 @@ object JwtClaimsConstant {
     const val NAME: String = "name"
 }
 
-object EmployeeStatus {
+object StatusConstant {
     const val ENABLE: Int = 1
     const val DISABLE: Int = 0
 }

@@ -52,6 +52,7 @@ class CategoryServiceImpl(
     }
 
     override fun removeById(id: Long) {
+        // 确保没有引用要删除的行 (作为外键)
         if (dishService.countByCategoryId(id) > 0)
             throw ExceptionType.CATEGORY_BE_RELATED_BY_DISH.asException()
 

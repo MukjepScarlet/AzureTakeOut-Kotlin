@@ -6,6 +6,9 @@ import org.apache.ibatis.reflection.MetaObject
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
+/**
+ * 无视字段是否为null的更新 (因为更新可能用copy方法产生, 会保留原来的数据)
+ */
 @Component
 class CustomDataHandler : MetaObjectHandler {
 

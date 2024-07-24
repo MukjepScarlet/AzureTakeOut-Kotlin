@@ -78,5 +78,25 @@ class EmployeeServiceImpl(
         this.update(KtUpdateWrapper(Employee::class.java).eq(Employee::id, id).set(Employee::status, status))
     }
 
+    override fun update(employeeDTO: EmployeeDTO) {
+        val (id, username, name, phone, sex, idNumber) = employeeDTO
+
+        // id不能为空
+        if (id == null)
+            throw ExceptionType.ACCOUNT_NOT_FOUND.asException()
+
+        this.update(
+            KtUpdateWrapper(Employee::class.java)
+                .eq(Employee::id, id)
+                .set(Employee::username, username)
+                .set(Employee::name, name)
+                .set(Employee::phone, phone)
+                .set(Employee::sex, sex)
+                .set(Employee::idNumber, idNumber)
+                .set(Employee::updateTime, LocalDateTime.now())
+                .set(Employee::updateUser, CURRENT_EMPLOYEE_ID.get())
+        )
+    }
+
 }
 

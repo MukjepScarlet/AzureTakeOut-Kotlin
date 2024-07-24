@@ -11,14 +11,14 @@ import moe.scarlet.azure_take_out_kt.exception.ExceptionType
 import moe.scarlet.azure_take_out_kt.extension.asQueryResult
 import moe.scarlet.azure_take_out_kt.extension.toMD5
 import moe.scarlet.azure_take_out_kt.mapper.EmployeeMapper
-import moe.scarlet.azure_take_out_kt.pojo.*
+import moe.scarlet.azure_take_out_kt.pojo.Employee
+import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeEditPasswordDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeLoginDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeePageQueryDTO
 import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -61,11 +61,6 @@ class EmployeeServiceImpl(
             phone,
             sex,
             idNumber,
-            EmployeeStatus.ENABLE,
-            LocalDateTime.now(),
-            LocalDateTime.now(),
-            CURRENT_EMPLOYEE_ID.get(),
-            CURRENT_EMPLOYEE_ID.get()
         )
         this.save(employee)
     }
@@ -87,20 +82,9 @@ class EmployeeServiceImpl(
         val (id, username, name, phone, sex, idNumber) = employeeDTO
 
         // id不能为空
-        if (id == null)
-            throw ExceptionType.ACCOUNT_NOT_FOUND.asException()
+        val target = id?.let(this::getById) ?: throw ExceptionType.ACCOUNT_NOT_FOUND.asException()
 
-        this.update(
-            KtUpdateWrapper(Employee::class.java)
-                .eq(Employee::id, id)
-                .set(Employee::username, username)
-                .set(Employee::name, name)
-                .set(Employee::phone, phone)
-                .set(Employee::sex, sex)
-                .set(Employee::idNumber, idNumber)
-                .set(Employee::updateTime, LocalDateTime.now())
-                .set(Employee::updateUser, CURRENT_EMPLOYEE_ID.get())
-        )
+        this.updateById(target.copy(username = username, name = name, phone = phone, sex = sex, idNumber = idNumber))
     }
 
     override fun editPassword(employeeEditPasswordDTO: EmployeeEditPasswordDTO) {

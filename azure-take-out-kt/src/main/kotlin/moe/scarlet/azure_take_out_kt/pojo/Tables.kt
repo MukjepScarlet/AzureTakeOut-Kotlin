@@ -1,8 +1,6 @@
 package moe.scarlet.azure_take_out_kt.pojo
 
-import com.baomidou.mybatisplus.annotation.IdType
-import com.baomidou.mybatisplus.annotation.TableId
-import com.baomidou.mybatisplus.annotation.TableName
+import com.baomidou.mybatisplus.annotation.*
 import moe.scarlet.azure_take_out_kt.constant.EmployeeStatus
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -34,10 +32,14 @@ data class Category(
     val name: String,
     val sort: Int = 0,
     val status: Int?,
-    val createTime: LocalDateTime?,
-    val updateTime: LocalDateTime?,
-    val createUser: Long?,
-    val updateUser: Long?
+    @TableField(fill = FieldFill.INSERT)
+    val createTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT)
+    val createUser: Long? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateUser: Long? = null
 )
 
 @TableName("dish")
@@ -50,10 +52,14 @@ data class Dish(
     val image: String?,
     val description: String?,
     val status: Int? = 1,
-    val createTime: LocalDateTime?,
-    val updateTime: LocalDateTime?,
-    val createUser: Long?,
-    val updateUser: Long?
+    @TableField(fill = FieldFill.INSERT)
+    val createTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT)
+    val createUser: Long? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateUser: Long? = null
 )
 
 @TableName("dish_flavor")
@@ -76,10 +82,14 @@ data class Employee(
     val sex: String,
     val idNumber: String,
     val status: Int = EmployeeStatus.ENABLE,
-    val createTime: LocalDateTime?,
-    val updateTime: LocalDateTime?,
-    val createUser: Long?,
-    val updateUser: Long?
+    @TableField(fill = FieldFill.INSERT)
+    val createTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT)
+    val createUser: Long? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateUser: Long? = null
 )
 
 @TableName("order_detail")
@@ -135,10 +145,14 @@ data class SetMeal(
     val status: Int? = 1,
     val description: String?,
     val image: String?,
-    val createTime: LocalDateTime?,
-    val updateTime: LocalDateTime?,
-    val createUser: Long?,
-    val updateUser: Long?
+    @TableField(fill = FieldFill.INSERT)
+    val createTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateTime: LocalDateTime? = null,
+    @TableField(fill = FieldFill.INSERT)
+    val createUser: Long? = null,
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    val updateUser: Long? = null
 )
 
 @TableName("setmeal_dish")
@@ -164,7 +178,8 @@ data class ShoppingCart(
     val dishFlavor: String?,
     val number: Int = 1,
     val amount: BigDecimal,
-    val createTime: LocalDateTime?
+    @TableField(fill = FieldFill.INSERT)
+    val createTime: LocalDateTime? = null,
 )
 
 @TableName("user")
@@ -177,5 +192,6 @@ data class User(
     val sex: String?,
     val idNumber: String?,
     val avatar: String?,
-    val createTime: LocalDateTime?
+    @TableField(fill = FieldFill.INSERT)
+    val createTime: LocalDateTime? = null,
 )

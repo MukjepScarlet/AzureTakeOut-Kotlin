@@ -1,7 +1,9 @@
 package moe.scarlet.azure_take_out_kt.service
 
 import com.baomidou.mybatisplus.extension.service.IService
-import moe.scarlet.azure_take_out_kt.pojo.*
+import moe.scarlet.azure_take_out_kt.pojo.Category
+import moe.scarlet.azure_take_out_kt.pojo.Employee
+import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import moe.scarlet.azure_take_out_kt.pojo.dto.*
 
 interface EmployeeService : IService<Employee> {

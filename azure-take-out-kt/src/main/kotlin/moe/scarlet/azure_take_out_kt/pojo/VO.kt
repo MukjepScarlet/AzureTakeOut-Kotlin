@@ -11,8 +11,20 @@ data class EmployeeLoginVO(
 )
 
 data class DishVO(
+    val id: Long,
+    val name: String,
     val categoryId: Long,
-//    val categoryName: String, // 这个字段不需要, 前端直接读Category表了
+    val price: BigDecimal,
+    val image: String,
+    val description: String,
+    val status: Int,
+    val updateTime: LocalDateTime,
+    val categoryName: String,
+)
+
+data class DishWithFlavorsVO(
+    val categoryId: Long,
+    val categoryName: String,
     val description: String,
     val flavors: List<DishFlavor>,
     val id: Long,

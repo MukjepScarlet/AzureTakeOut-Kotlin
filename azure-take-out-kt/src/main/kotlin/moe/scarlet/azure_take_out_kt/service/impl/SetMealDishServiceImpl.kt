@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class SetMealDishServiceImpl : ServiceImpl<SetMealDishMapper, SetMealDish>(), SetMealDishService {
 
-    override fun countByDishId(dishId: Long)=this.count(KtQueryWrapper(SetMealDish::class.java).eq(SetMealDish::dishId, dishId))
+    override fun countByDishId(dishId: Long) =
+        this.count(KtQueryWrapper(SetMealDish::class.java).eq(SetMealDish::dishId, dishId))
 
 }

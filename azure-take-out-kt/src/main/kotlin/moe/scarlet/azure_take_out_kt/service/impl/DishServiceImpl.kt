@@ -6,12 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
-import moe.scarlet.azure_take_out_kt.extension.asQueryResult
+import moe.scarlet.azure_take_out_kt.mapper.CategoryMapper
 import moe.scarlet.azure_take_out_kt.mapper.DishMapper
-import moe.scarlet.azure_take_out_kt.pojo.Dish
-import moe.scarlet.azure_take_out_kt.pojo.DishFlavor
-import moe.scarlet.azure_take_out_kt.pojo.DishVO
-import moe.scarlet.azure_take_out_kt.pojo.QueryResult
+import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishPageQueryDTO
 import moe.scarlet.azure_take_out_kt.service.DishFlavorService
@@ -23,21 +20,39 @@ import org.springframework.stereotype.Service
 class DishServiceImpl(
     private val dishMapper: DishMapper,
     private val dishFlavorService: DishFlavorService,
-    private val setMealDishService: SetMealDishService
+    private val setMealDishService: SetMealDishService,
+    private val categoryMapper: CategoryMapper
 ) : ServiceImpl<DishMapper, Dish>(), DishService {
 
     override fun countByCategoryId(categoryId: Long) =
         this.count(KtQueryWrapper(Dish::class.java).eq(Dish::categoryId, categoryId))
 
-    override fun pageQuery(dishPageQueryDTO: DishPageQueryDTO): QueryResult<Dish> {
+    // 非常丑陋, 但是我不想写一堆SQL, 就用子查询吧
+    override fun pageQuery(dishPageQueryDTO: DishPageQueryDTO): QueryResult<DishVO> {
         val (categoryId, name, page, pageSize, status) = dishPageQueryDTO
-        return dishMapper.selectPage(
+        val result = dishMapper.selectPage(
             Page(page, pageSize),
             KtQueryWrapper(Dish::class.java)
                 .like(!name.isNullOrEmpty(), Dish::name, name)
                 .eq(categoryId != null, Dish::categoryId, categoryId)
                 .eq(status != null, Dish::status, status)
-        ).asQueryResult()
+        )
+        return QueryResult(
+            result.total,
+            result.records.map {
+                DishVO(
+                    it.id,
+                    it.name,
+                    it.categoryId,
+                    it.price,
+                    it.image,
+                    it.description,
+                    it.status,
+                    it.updateTime!!,
+                    categoryMapper.getNameById(it.categoryId)
+                )
+            }
+        )
     }
 
     override fun status(status: Int, id: Long) {
@@ -84,10 +99,12 @@ class DishServiceImpl(
         this.removeByIds(idList)
     }
 
-    override fun getByIdWithFlavor(id: Long): DishVO {
-        val (_, name, categoryId, price, image, description, status, updateTime) = this.getById(id)
-        return DishVO(categoryId, description, dishFlavorService.getByDishId(id),
-            id, image, name, price, status, updateTime!!)
+    override fun getByIdWithFlavor(id: Long): DishWithFlavorsVO {
+        val (_, name, categoryId, price, image, description, status, _, updateTime) = this.getById(id)
+        return DishWithFlavorsVO(
+            categoryId, categoryMapper.getNameById(categoryId), description, dishFlavorService.getByDishId(id),
+            id, image, name, price, status, updateTime!!
+        )
     }
 
     override fun list(categoryId: Long): List<Dish> =

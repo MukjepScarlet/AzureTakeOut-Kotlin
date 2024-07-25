@@ -15,12 +15,12 @@ interface CategoryService : IService<Category> {
 
 interface DishService : IService<Dish> {
     fun countByCategoryId(categoryId: Long): Long
-    fun pageQuery(dishPageQueryDTO: DishPageQueryDTO): QueryResult<Dish>
+    fun pageQuery(dishPageQueryDTO: DishPageQueryDTO): QueryResult<DishVO>
     fun status(status: Int, id: Long)
     fun save(dishDTO: DishDTO)
     fun update(dishDTO: DishDTO)
     fun delete(idList: List<Long>)
-    fun getByIdWithFlavor(id: Long): DishVO
+    fun getByIdWithFlavor(id: Long): DishWithFlavorsVO
     fun list(categoryId: Long): List<Dish>
 }
 

@@ -16,7 +16,8 @@ class DishFlavorServiceImpl : ServiceImpl<DishFlavorMapper, DishFlavor>(), DishF
         super<ServiceImpl>.saveBatch(dishFlavorDTO.map { DishFlavor(it.id ?: 0L, dishId, it.name, it.value) })
     }
 
-    override fun getByDishId(dishId: Long): List<DishFlavor> = this.list(KtQueryWrapper(DishFlavor::class.java).eq(DishFlavor::dishId, dishId))
+    override fun getByDishId(dishId: Long): List<DishFlavor> =
+        this.list(KtQueryWrapper(DishFlavor::class.java).eq(DishFlavor::dishId, dishId))
 
     override fun removeByDishId(dishId: Long) {
         this.remove(KtQueryWrapper(DishFlavor::class.java).eq(DishFlavor::dishId, dishId))

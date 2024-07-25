@@ -4,11 +4,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
 
 @Component
-@ConfigurationProperties(prefix = "azure.alioss")
-data class AliOssProperties(
+@ConfigurationProperties(prefix = "azure.qiniu")
+data class QiniuProperties(
     var endpoint: String = "",
-    var accessKeyId: String = "",
-    var accessKeySecret: String = "",
+    var accessKey: String = "",
+    var secretKey: String = "",
     var bucketName: String = "",
 )
 

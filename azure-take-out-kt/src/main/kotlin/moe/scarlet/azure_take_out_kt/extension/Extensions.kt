@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.web.multipart.MultipartFile
 import java.security.MessageDigest
+import javax.imageio.ImageIO
 
 /**
  * 代替Lombok的@Slf4j注解, 对每个类生成一个单例的Logger
@@ -31,3 +33,12 @@ fun String.toMD5(): String {
 }
 
 fun <T> IPage<T>.asQueryResult() = QueryResult<T>(this.total, this.records)
+
+val MultipartFile.isImage: Boolean
+    get() = try {
+        inputStream.use {
+            ImageIO.read(it) != null
+        }
+    } catch (e: Exception) {
+        false
+    }

@@ -62,4 +62,7 @@ class CategoryServiceImpl(
         super<ServiceImpl>.removeById(id)
     }
 
+    override fun list(type: Int): List<Category> =
+        this.list(KtQueryWrapper(Category::class.java).eq(Category::type, type))
+
 }

@@ -1,5 +1,8 @@
 package moe.scarlet.azure_take_out_kt.pojo
 
+import java.math.BigDecimal
+import java.time.LocalDateTime
+
 data class EmployeeLoginVO(
     val id: Long,
     val userName: String, // 这个字段和数据库里大小写对不上!!
@@ -7,4 +10,15 @@ data class EmployeeLoginVO(
     val token: String
 )
 
-// TODO
+data class DishVO(
+    val categoryId: Long,
+//    val categoryName: String, // 这个字段不需要, 前端直接读Category表了
+    val description: String,
+    val flavors: List<DishFlavor>,
+    val id: Long,
+    val image: String,
+    val name: String,
+    val price: BigDecimal,
+    val status: Int,
+    val updateTime: LocalDateTime,
+)

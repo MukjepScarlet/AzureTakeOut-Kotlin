@@ -48,10 +48,10 @@ data class Dish(
     val id: Long,
     val name: String,
     val categoryId: Long,
-    val price: BigDecimal?,
-    val image: String?,
-    val description: String?,
-    val status: Int? = 1,
+    val price: BigDecimal,
+    val image: String,
+    val description: String,
+    val status: Int = 1,
     @TableField(fill = FieldFill.INSERT)
     val createTime: LocalDateTime? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -67,8 +67,8 @@ data class DishFlavor(
     @TableId(type = IdType.AUTO)
     val id: Long,
     val dishId: Long,
-    val name: String?,
-    val value: String?
+    val name: String,
+    val value: String
 )
 
 @TableName("employee")

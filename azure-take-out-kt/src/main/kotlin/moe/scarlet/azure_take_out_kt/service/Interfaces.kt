@@ -10,10 +10,24 @@ interface CategoryService : IService<Category> {
     fun save(categoryDTO: CategoryDTO)
     fun update(categoryDTO: CategoryDTO)
     fun removeById(id: Long)
+    fun list(type: Int): List<Category>
 }
 
 interface DishService : IService<Dish> {
     fun countByCategoryId(categoryId: Long): Long
+    fun pageQuery(dishPageQueryDTO: DishPageQueryDTO): QueryResult<Dish>
+    fun status(status: Int, id: Long)
+    fun save(dishDTO: DishDTO)
+    fun update(dishDTO: DishDTO)
+    fun delete(idList: List<Long>)
+    fun getByIdWithFlavor(id: Long): DishVO
+    fun list(categoryId: Long): List<Dish>
+}
+
+interface DishFlavorService : IService<DishFlavor> {
+    fun saveBatch(dishId: Long, dishFlavorDTO: Collection<DishFlavorDTO>)
+    fun getByDishId(dishId: Long): List<DishFlavor>
+    fun removeByDishId(dishId: Long)
 }
 
 interface EmployeeService : IService<Employee> {
@@ -28,4 +42,8 @@ interface EmployeeService : IService<Employee> {
 
 interface SetMealService : IService<SetMeal> {
     fun countByCategoryId(categoryId: Long): Long
+}
+
+interface SetMealDishService : IService<SetMealDish> {
+    fun countByDishId(dishId: Long): Long
 }

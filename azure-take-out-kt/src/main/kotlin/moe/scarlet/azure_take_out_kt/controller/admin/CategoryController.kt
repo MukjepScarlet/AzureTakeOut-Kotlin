@@ -55,4 +55,8 @@ class CategoryController(
         return JsonResult.success()
     }
 
+    @Operation(summary = "查询指定类型分类")
+    @GetMapping("/list")
+    fun list(type: Int) = JsonResult.success(categoryService.list(type))
+
 }

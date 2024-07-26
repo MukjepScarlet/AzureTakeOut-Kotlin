@@ -72,8 +72,8 @@ interface UserService : IService<User> {
 }
 
 interface ShoppingCartService : IService<ShoppingCart> {
-    fun sub()
-//    fun list()
+    fun sub(shoppingCartDTO: ShoppingCartDTO)
+    fun listByCurrentUser(): List<ShoppingCart>
     fun add(shoppingCartDTO: ShoppingCartDTO)
-    fun clean()
+    fun cleanByCurrentUser()
 }

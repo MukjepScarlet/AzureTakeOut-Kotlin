@@ -186,8 +186,8 @@ data class SetMealDish(
 data class ShoppingCart(
     @TableId(type = IdType.AUTO)
     val id: Long,
-    val name: String?,
-    val image: String?,
+    val name: String,
+    val image: String,
     val userId: Long,
     val dishId: Long?,
     val setmealId: Long?,

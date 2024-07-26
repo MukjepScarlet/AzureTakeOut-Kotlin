@@ -2,7 +2,9 @@ package moe.scarlet.azure_take_out_kt.controller.admin
 
 import io.swagger.v3.oas.annotations.Operation
 import moe.scarlet.azure_take_out_kt.extension.logger
-import moe.scarlet.azure_take_out_kt.pojo.*
+import moe.scarlet.azure_take_out_kt.pojo.Dish
+import moe.scarlet.azure_take_out_kt.pojo.JsonResult
+import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishPageQueryDTO
 import moe.scarlet.azure_take_out_kt.pojo.vo.DishVO

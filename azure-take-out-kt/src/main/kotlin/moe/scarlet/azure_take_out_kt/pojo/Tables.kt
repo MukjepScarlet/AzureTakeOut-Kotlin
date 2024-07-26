@@ -157,9 +157,9 @@ data class SetMeal(
     val categoryId: Long,
     val name: String,
     val price: BigDecimal,
-    val status: Int? = 1,
-    val description: String?,
-    val image: String?,
+    val status: Int = 1,
+    val description: String,
+    val image: String,
     @TableField(fill = FieldFill.INSERT)
     val createTime: LocalDateTime? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -174,11 +174,11 @@ data class SetMeal(
 data class SetMealDish(
     @TableId(type = IdType.AUTO)
     val id: Long,
-    val setmealId: Long?,
-    val dishId: Long?,
-    val name: String?,
-    val price: BigDecimal?,
-    val copies: Int?
+    val setmealId: Long,
+    val dishId: Long,
+    val name: String,
+    val price: BigDecimal,
+    val copies: Int
 )
 
 @TableName("shopping_cart")

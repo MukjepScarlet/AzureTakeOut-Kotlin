@@ -1,7 +1,5 @@
 package moe.scarlet.azure_take_out_kt.pojo.vo
 
-import java.math.BigDecimal
-
 data class BusinessDataVO(
     val newUsers: Long,
     val orderCompletionRate: Double,

@@ -8,7 +8,9 @@ import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
 import moe.scarlet.azure_take_out_kt.mapper.CategoryMapper
 import moe.scarlet.azure_take_out_kt.mapper.DishMapper
-import moe.scarlet.azure_take_out_kt.pojo.*
+import moe.scarlet.azure_take_out_kt.pojo.Dish
+import moe.scarlet.azure_take_out_kt.pojo.DishFlavor
+import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishPageQueryDTO
 import moe.scarlet.azure_take_out_kt.pojo.vo.DishVO
@@ -35,9 +37,9 @@ class DishServiceImpl(
         val result = dishMapper.selectPage(
             Page(page, pageSize),
             KtQueryWrapper(Dish::class.java)
-                .like(!name.isNullOrEmpty(), Dish::name, name)
                 .eq(categoryId != null, Dish::categoryId, categoryId)
                 .eq(status != null, Dish::status, status)
+                .like(!name.isNullOrEmpty(), Dish::name, name)
         )
         return QueryResult(
             result.total,
@@ -87,6 +89,8 @@ class DishServiceImpl(
     }
 
     override fun delete(idList: List<Long>) {
+        if (idList.isEmpty()) return
+
         // 判断是否有在售的
         if (idList.any { this.getById(it).status == StatusConstant.ENABLE })
             throw ExceptionType.DISH_ON_SALE.asException()

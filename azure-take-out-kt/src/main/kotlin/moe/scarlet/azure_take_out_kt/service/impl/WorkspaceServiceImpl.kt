@@ -1,6 +1,5 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import moe.scarlet.azure_take_out_kt.mapper.DishMapper
@@ -16,7 +15,6 @@ import moe.scarlet.azure_take_out_kt.pojo.vo.OverviewDishesOrSetMealsVO
 import moe.scarlet.azure_take_out_kt.pojo.vo.OverviewOrdersVO
 import moe.scarlet.azure_take_out_kt.service.WorkspaceService
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -34,7 +32,8 @@ class WorkspaceServiceImpl(
         val startOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
         val endOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MAX)
 
-        val newUsers = userMapper.selectCount(KtQueryWrapper(User::class.java).between(User::createTime, startOfToday, endOfToday))
+        val newUsers =
+            userMapper.selectCount(KtQueryWrapper(User::class.java).between(User::createTime, startOfToday, endOfToday))
 
         return KtQueryWrapper(Orders::class.java).between(Orders::orderTime, startOfToday, endOfToday).let {
             val totalOrdersCount = ordersMapper.selectCount(it)

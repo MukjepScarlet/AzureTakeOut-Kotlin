@@ -43,10 +43,20 @@ interface EmployeeService : IService<Employee> {
 
 interface SetMealService : IService<SetMeal> {
     fun countByCategoryId(categoryId: Long): Long
+    fun pageQuery(setMealPageQueryDTO: SetMealPageQueryDTO): QueryResult<SetMealVO>
+    fun status(status: Int, id: Long)
+    fun save(setMealDTO: SetMealDTO)
+    fun update(setMealDTO: SetMealDTO)
+    fun delete(idList: List<Long>)
+    fun getByIdWithDishes(id: Long): SetMealWithDishesVO
 }
 
 interface SetMealDishService : IService<SetMealDish> {
     fun countByDishId(dishId: Long): Long
+    fun countBySetMealId(setmealId: Long): Long
+    fun getBySetMealId(setmealId: Long): List<SetMealDish>
+    fun saveBatch(setmealId: Long, setMealDTO: Collection<SetMealDishDTO>)
+    fun removeBySetMealId(setmealId: Long)
 }
 
 interface WorkspaceService {

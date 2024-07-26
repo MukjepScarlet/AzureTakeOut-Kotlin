@@ -3,8 +3,7 @@ package moe.scarlet.azure_take_out_kt.service
 import com.baomidou.mybatisplus.extension.service.IService
 import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.*
-import moe.scarlet.azure_take_out_kt.pojo.vo.DishVO
-import moe.scarlet.azure_take_out_kt.pojo.vo.DishWithFlavorsVO
+import moe.scarlet.azure_take_out_kt.pojo.vo.*
 
 interface CategoryService : IService<Category> {
     fun pageQuery(categoryPageQueryDTO: CategoryPageQueryDTO): QueryResult<Category>
@@ -49,3 +48,11 @@ interface SetMealService : IService<SetMeal> {
 interface SetMealDishService : IService<SetMealDish> {
     fun countByDishId(dishId: Long): Long
 }
+
+interface WorkspaceService {
+    fun businessData(): BusinessDataVO
+    fun overviewSetmeals(): OverviewDishesOrSetMealsVO
+    fun overviewDishes(): OverviewDishesOrSetMealsVO
+    fun overviewOrders(): OverviewOrdersVO
+}
+

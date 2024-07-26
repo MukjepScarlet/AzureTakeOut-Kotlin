@@ -133,7 +133,22 @@ data class Orders(
     val packAmount: Int?,
     val tablewareNumber: Int?,
     val tablewareStatus: Byte = 1,
-)
+) {
+    object Status {
+        const val PENDING_PAYMENT = 1
+        const val TO_BE_CONFIRMED = 2
+        const val CONFIRMED = 3
+        const val DELIVERY_IN_PROGRESS = 4
+        const val COMPLETED = 5
+        const val CANCELLED = 6
+    }
+
+    object PayStatus {
+        const val UN_PAID = 0
+        const val PAID = 1
+        const val REFUND = 2
+    }
+}
 
 @TableName("setmeal")
 data class SetMeal(

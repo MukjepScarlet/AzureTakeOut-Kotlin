@@ -10,4 +10,4 @@ private operator fun <T> ThreadLocal<T>.setValue(t: T?, property: KProperty<*>, 
 
 var CURRENT_EMPLOYEE_ID by ThreadLocal<Long?>()
 
-var CURRENT_USER_ID by ThreadLocal<String?>()
+var CURRENT_USER_ID by ThreadLocal<Long?>()

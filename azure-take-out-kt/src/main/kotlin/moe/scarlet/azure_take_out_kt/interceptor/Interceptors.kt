@@ -50,7 +50,7 @@ class JwtTokenUserInterceptor(
         return try {
             logger.info("JWT令牌: $token")
             val claims = JwtUtil.parseJWT(jwtProperties.userSecretKey, token)
-            val userId = claims[JwtClaimsConstant.USER_ID].toString()
+            val userId = claims[JwtClaimsConstant.USER_ID].toString().toLong()
             logger.info("解析的用户ID: $userId")
             CURRENT_USER_ID = userId
             true

@@ -8,5 +8,5 @@ private operator fun <T> ThreadLocal<T>.getValue(t: T?, property: KProperty<*>):
 
 private operator fun <T> ThreadLocal<T>.setValue(t: T?, property: KProperty<*>, value: T) = this.set(value)
 
-var CURRENT_EMPLOYEE_ID by ThreadLocal<Long>()
+var CURRENT_EMPLOYEE_ID by ThreadLocal<Long?>()
 

@@ -16,6 +16,7 @@ class CustomDataHandler : MetaObjectHandler {
         metaObject ?: return
         setFieldValByName("createTime", LocalDateTime.now(), metaObject)
         setFieldValByName("updateTime", LocalDateTime.now(), metaObject)
+        CURRENT_EMPLOYEE_ID ?: return
         setFieldValByName("createUser", CURRENT_EMPLOYEE_ID, metaObject)
         setFieldValByName("updateUser", CURRENT_EMPLOYEE_ID, metaObject)
     }
@@ -23,6 +24,7 @@ class CustomDataHandler : MetaObjectHandler {
     override fun updateFill(metaObject: MetaObject?) {
         metaObject ?: return
         setFieldValByName("updateTime", LocalDateTime.now(), metaObject)
+        CURRENT_EMPLOYEE_ID ?: return
         setFieldValByName("updateUser", CURRENT_EMPLOYEE_ID, metaObject)
     }
 

@@ -14,6 +14,8 @@ import moe.scarlet.azure_take_out_kt.pojo.vo.EmployeeLoginVO
 import moe.scarlet.azure_take_out_kt.property.JwtProperties
 import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import moe.scarlet.azure_take_out_kt.util.JwtUtil
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -46,6 +48,7 @@ class EmployeeController(
 
     @Operation(summary = "新增员工")
     @PostMapping
+    @CacheEvict(value = ["employee"], allEntries = true)
     fun add(@RequestBody employeeDTO: EmployeeDTO): JsonResult<Nothing> {
         logger.info("新增员工: $employeeDTO")
         employeeService.save(employeeDTO)
@@ -54,6 +57,7 @@ class EmployeeController(
 
     @Operation(summary = "分页查询员工")
     @GetMapping("/page")
+    @Cacheable(value = ["employee"])
     fun query(employeePageQueryDTO: EmployeePageQueryDTO): JsonResult<QueryResult<Employee>> {
         logger.info("分页查询(员工): $employeePageQueryDTO")
         return JsonResult.success(employeeService.pageQuery(employeePageQueryDTO))
@@ -61,6 +65,7 @@ class EmployeeController(
 
     @Operation(summary = "设置员工状态")
     @PostMapping("/status/{status}")
+    @CacheEvict(value = ["employee"], allEntries = true)
     fun status(@PathVariable status: Int, id: Long): JsonResult<Nothing> {
         logger.info("员工状态设置: $status")
         employeeService.status(status, id)
@@ -69,10 +74,12 @@ class EmployeeController(
 
     @Operation(summary = "按ID查询员工")
     @GetMapping("/{id}")
+    @Cacheable(value = ["employee"])
     fun getById(@PathVariable id: Long): JsonResult<Employee> = JsonResult.success(employeeService.getById(id))
 
     @Operation(summary = "更新员工")
     @PutMapping
+    @CacheEvict(value = ["employee"], allEntries = true)
     fun update(@RequestBody employeeDTO: EmployeeDTO): JsonResult<Nothing> {
         logger.info("更新员工: $employeeDTO")
         employeeService.update(employeeDTO)
@@ -81,6 +88,7 @@ class EmployeeController(
 
     @Operation(summary = "员工修改密码")
     @PutMapping("/editPassword")
+    @CacheEvict(value = ["employee"], allEntries = true)
     fun editPassword(@RequestBody employeeEditPasswordDTO: EmployeeEditPasswordDTO): JsonResult<Nothing> {
         logger.info("修改密码: $employeeEditPasswordDTO")
         employeeService.editPassword(employeeEditPasswordDTO)

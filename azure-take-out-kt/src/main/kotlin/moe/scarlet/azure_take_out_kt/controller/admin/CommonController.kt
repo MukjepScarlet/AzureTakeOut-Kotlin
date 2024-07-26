@@ -16,6 +16,6 @@ class CommonController(
 
     @Operation(summary = "上传图片")
     @PostMapping("/upload")
-    fun upload(file: MultipartFile) = JsonResult.success(qiniuUtil.getFullPath(qiniuUtil.uploadImage(file)))
+    suspend fun upload(file: MultipartFile) = JsonResult.success(qiniuUtil.getFullPath(qiniuUtil.uploadImage(file)))
 
 }

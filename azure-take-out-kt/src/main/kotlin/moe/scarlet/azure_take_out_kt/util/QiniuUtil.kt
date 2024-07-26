@@ -5,6 +5,8 @@ import com.qiniu.storage.Configuration
 import com.qiniu.storage.Region
 import com.qiniu.storage.UploadManager
 import com.qiniu.util.Auth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
 import moe.scarlet.azure_take_out_kt.extension.isImage
 import moe.scarlet.azure_take_out_kt.extension.logger
@@ -26,17 +28,19 @@ class QiniuUtil(
     /**
      * 上传图片, 返回上传后的文件名
      */
-    fun uploadImage(file: MultipartFile): String {
-        if (!file.isImage)
+    suspend fun uploadImage(file: MultipartFile): String {
+        if (file.isEmpty || !file.isImage)
             throw ExceptionType.UPLOAD_FAILED.asException()
 
-        try {
-            val response = uploadManager.put(file.bytes, UUID.randomUUID().toString(), uploadToken)
-            if (response.isOK && response.isJson)
-                return response.jsonToMap()["key"] as String
-            else {
-                logger.error(response.bodyString())
-                throw ExceptionType.UPLOAD_FAILED.asException()
+        return try {
+            withContext (Dispatchers.IO) {
+                val response = uploadManager.put(file.bytes, UUID.randomUUID().toString(), uploadToken)
+                if (response.isOK && response.isJson)
+                    response.jsonToMap()["key"] as String
+                else {
+                    logger.error(response.bodyString())
+                    throw ExceptionType.UPLOAD_FAILED.asException()
+                }
             }
         } catch (e: QiniuException) {
             logger.error(e.message)

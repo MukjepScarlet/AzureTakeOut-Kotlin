@@ -1,5 +1,6 @@
 package moe.scarlet.azure_take_out_kt.pojo.dto
 
+import java.io.Serializable
 import java.math.BigDecimal
 
 data class SetMealDTO(
@@ -11,7 +12,7 @@ data class SetMealDTO(
     val price: BigDecimal,
     val setmealDishes: List<SetMealDishDTO>?,
     val status: Int,
-)
+) : Serializable
 
 data class SetMealPageQueryDTO(
     val categoryId: Long?,
@@ -19,7 +20,7 @@ data class SetMealPageQueryDTO(
     val page: Long,
     val pageSize: Long,
     val status: Int?,
-)
+) : Serializable
 
 data class SetMealDishDTO(
     val copies: Int,
@@ -28,4 +29,4 @@ data class SetMealDishDTO(
     val name: String,
     val price: BigDecimal,
     val setmealId: Long,
-)
+) : Serializable

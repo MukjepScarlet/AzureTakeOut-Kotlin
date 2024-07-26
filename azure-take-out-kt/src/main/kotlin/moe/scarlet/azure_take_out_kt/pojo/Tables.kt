@@ -2,6 +2,7 @@ package moe.scarlet.azure_take_out_kt.pojo
 
 import com.baomidou.mybatisplus.annotation.*
 import moe.scarlet.azure_take_out_kt.constant.StatusConstant
+import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -22,7 +23,7 @@ data class AddressBook(
     val detail: String?,
     val label: String?,
     val isDefault: Byte = 0
-)
+) : Serializable
 
 @TableName("category")
 data class Category(
@@ -40,7 +41,7 @@ data class Category(
     val createUser: Long? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
     val updateUser: Long? = null
-)
+) : Serializable
 
 @TableName("dish")
 data class Dish(
@@ -60,7 +61,7 @@ data class Dish(
     val createUser: Long? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
     val updateUser: Long? = null
-)
+) : Serializable
 
 @TableName("dish_flavor")
 data class DishFlavor(
@@ -69,7 +70,7 @@ data class DishFlavor(
     val dishId: Long,
     val name: String,
     val value: String
-)
+) : Serializable
 
 @TableName("employee")
 data class Employee(
@@ -90,7 +91,7 @@ data class Employee(
     val createUser: Long? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
     val updateUser: Long? = null
-)
+) : Serializable
 
 @TableName("order_detail")
 data class OrderDetail(
@@ -104,7 +105,7 @@ data class OrderDetail(
     val dishFlavor: String?,
     val number: Int = 1,
     val amount: BigDecimal
-)
+) : Serializable
 
 @TableName("orders")
 data class Orders(
@@ -133,7 +134,7 @@ data class Orders(
     val packAmount: Int?,
     val tablewareNumber: Int?,
     val tablewareStatus: Byte = 1,
-) {
+) : Serializable {
     object Status {
         const val PENDING_PAYMENT = 1
         const val TO_BE_CONFIRMED = 2
@@ -168,7 +169,7 @@ data class SetMeal(
     val createUser: Long? = null,
     @TableField(fill = FieldFill.INSERT_UPDATE)
     val updateUser: Long? = null
-)
+) : Serializable
 
 @TableName("setmeal_dish")
 data class SetMealDish(
@@ -179,7 +180,7 @@ data class SetMealDish(
     val name: String,
     val price: BigDecimal,
     val copies: Int
-)
+) : Serializable
 
 @TableName("shopping_cart")
 data class ShoppingCart(
@@ -195,7 +196,7 @@ data class ShoppingCart(
     val amount: BigDecimal,
     @TableField(fill = FieldFill.INSERT)
     val createTime: LocalDateTime? = null,
-)
+) : Serializable
 
 @TableName("user")
 data class User(
@@ -209,4 +210,4 @@ data class User(
     val avatar: String?,
     @TableField(fill = FieldFill.INSERT)
     val createTime: LocalDateTime? = null,
-)
+) : Serializable

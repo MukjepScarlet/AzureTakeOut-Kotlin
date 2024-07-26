@@ -1,6 +1,7 @@
 package moe.scarlet.azure_take_out_kt.pojo.vo
 
 import moe.scarlet.azure_take_out_kt.pojo.DishFlavor
+import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -14,7 +15,7 @@ data class DishVO(
     val status: Int,
     val updateTime: LocalDateTime,
     val categoryName: String,
-)
+) : Serializable
 
 data class DishWithFlavorsVO(
     val categoryId: Long,
@@ -27,4 +28,4 @@ data class DishWithFlavorsVO(
     val price: BigDecimal,
     val status: Int,
     val updateTime: LocalDateTime,
-)
+) : Serializable

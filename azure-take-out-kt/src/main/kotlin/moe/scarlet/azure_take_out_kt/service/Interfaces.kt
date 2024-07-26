@@ -3,6 +3,8 @@ package moe.scarlet.azure_take_out_kt.service
 import com.baomidou.mybatisplus.extension.service.IService
 import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.*
+import moe.scarlet.azure_take_out_kt.pojo.vo.DishVO
+import moe.scarlet.azure_take_out_kt.pojo.vo.DishWithFlavorsVO
 
 interface CategoryService : IService<Category> {
     fun pageQuery(categoryPageQueryDTO: CategoryPageQueryDTO): QueryResult<Category>

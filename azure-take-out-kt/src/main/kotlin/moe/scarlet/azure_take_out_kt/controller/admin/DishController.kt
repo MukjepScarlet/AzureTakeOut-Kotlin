@@ -5,6 +5,8 @@ import moe.scarlet.azure_take_out_kt.extension.logger
 import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.DishPageQueryDTO
+import moe.scarlet.azure_take_out_kt.pojo.vo.DishVO
+import moe.scarlet.azure_take_out_kt.pojo.vo.DishWithFlavorsVO
 import moe.scarlet.azure_take_out_kt.service.DishService
 import org.springframework.web.bind.annotation.*
 

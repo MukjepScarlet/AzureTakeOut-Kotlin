@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import moe.scarlet.azure_take_out_kt.constant.JwtClaimsConstant
 import moe.scarlet.azure_take_out_kt.extension.logger
 import moe.scarlet.azure_take_out_kt.pojo.Employee
-import moe.scarlet.azure_take_out_kt.pojo.EmployeeLoginVO
+import moe.scarlet.azure_take_out_kt.pojo.vo.EmployeeLoginVO
 import moe.scarlet.azure_take_out_kt.pojo.JsonResult
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeDTO

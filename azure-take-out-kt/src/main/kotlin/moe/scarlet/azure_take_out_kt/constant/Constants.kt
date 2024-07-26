@@ -16,3 +16,10 @@ object StatusConstant {
 object PasswordConstant {
     const val DEFAULT_PASSWORD = "123456"
 }
+
+object ShopStatus {
+    const val KEY = "AZURE@SHOP_STATUS"
+
+    const val CLOSED = 0
+    const val IN_BUSINESS = 1
+}

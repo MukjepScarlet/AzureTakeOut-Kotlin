@@ -22,6 +22,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+//	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.7")
 	implementation("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0")
 
@@ -32,7 +33,7 @@ dependencies {
 
 	implementation("com.qiniu:qiniu-java-sdk:7.13.+")
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
-	
+
 	runtimeOnly("mysql:mysql-connector-java:8.0.33")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 

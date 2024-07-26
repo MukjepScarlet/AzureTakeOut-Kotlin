@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import moe.scarlet.azure_take_out_kt.constant.JwtClaimsConstant
 import moe.scarlet.azure_take_out_kt.context.CURRENT_EMPLOYEE_ID
+import moe.scarlet.azure_take_out_kt.context.CURRENT_USER_ID
 import moe.scarlet.azure_take_out_kt.extension.logger
 import moe.scarlet.azure_take_out_kt.property.JwtProperties
 import moe.scarlet.azure_take_out_kt.util.JwtUtil
@@ -29,11 +30,34 @@ class JwtTokenAdminInterceptor(
             CURRENT_EMPLOYEE_ID = employeeId
             true
         } catch (e: Exception) {
-//            logger.info(e.localizedMessage)
             response.status = 401
             false
         }
+    }
 
+}
+
+@Configuration
+class JwtTokenUserInterceptor(
+    private val jwtProperties: JwtProperties
+) : HandlerInterceptor {
+
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        if (handler !is HandlerMethod) return true
+
+        val token = request.getHeader(jwtProperties.userTokenName)
+
+        return try {
+            logger.info("JWT令牌: $token")
+            val claims = JwtUtil.parseJWT(jwtProperties.userSecretKey, token)
+            val userId = claims[JwtClaimsConstant.USER_ID].toString()
+            logger.info("解析的用户ID: $userId")
+            CURRENT_USER_ID = userId
+            true
+        } catch (e: Exception) {
+            response.status = 401
+            false
+        }
     }
 
 }

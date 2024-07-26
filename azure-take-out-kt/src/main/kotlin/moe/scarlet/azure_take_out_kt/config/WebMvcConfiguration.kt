@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.info.Contact
 import io.swagger.v3.oas.annotations.info.Info
 import moe.scarlet.azure_take_out_kt.extension.logger
 import moe.scarlet.azure_take_out_kt.interceptor.JwtTokenAdminInterceptor
+import moe.scarlet.azure_take_out_kt.interceptor.JwtTokenUserInterceptor
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
@@ -23,7 +24,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
     )
 )
 class WebMvcConfiguration(
-    private val jwtTokenAdminInterceptor: JwtTokenAdminInterceptor
+    private val jwtTokenAdminInterceptor: JwtTokenAdminInterceptor,
+    private val jwtTokenUserInterceptor: JwtTokenUserInterceptor,
 ) : WebMvcConfigurer {
 
     override fun addInterceptors(registry: InterceptorRegistry) {
@@ -31,6 +33,11 @@ class WebMvcConfiguration(
         registry.addInterceptor(jwtTokenAdminInterceptor)
             .addPathPatterns("/admin/**")
             .excludePathPatterns("/admin/employee/login")
+
+        registry.addInterceptor(jwtTokenUserInterceptor)
+            .addPathPatterns("/user/**")
+            .excludePathPatterns("/user/user/login")
+            .excludePathPatterns("/user/shop/status")
     }
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {

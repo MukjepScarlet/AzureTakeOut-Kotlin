@@ -66,3 +66,14 @@ interface WorkspaceService {
     fun overviewOrders(): OverviewOrdersVO
 }
 
+interface UserService : IService<User> {
+    fun getByOpenId(openid: String): User?
+    suspend fun login(userDTO: UserDTO): User
+}
+
+interface ShoppingCartService : IService<ShoppingCart> {
+    fun sub()
+//    fun list()
+    fun add(shoppingCartDTO: ShoppingCartDTO)
+    fun clean()
+}

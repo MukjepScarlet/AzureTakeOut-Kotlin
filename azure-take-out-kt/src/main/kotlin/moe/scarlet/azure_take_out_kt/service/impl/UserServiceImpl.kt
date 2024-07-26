@@ -26,8 +26,11 @@ class UserServiceImpl(
         val openid = weChatUtil.login(code)?.openid ?: throw ExceptionType.LOGIN_FAILED.asException()
 
         // 若为新用户, 自动注册
-        return getByOpenId(openid) ?:
-            User(0, openid, null, null, null, null, null).apply(this::save)
+        return getByOpenId(openid) ?: run {
+            val newUser = User(0L, openid, null, null, null, null, null)
+            this.save(newUser)
+            newUser
+        }
     }
 
 }

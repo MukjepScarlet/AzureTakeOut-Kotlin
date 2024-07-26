@@ -4,6 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.6"
 	kotlin("jvm") version "1.9.24"
 	kotlin("plugin.spring") version "1.9.24"
+	kotlin("plugin.serialization") version "1.9.24"
 }
 
 group = "moe.scarlet"
@@ -29,8 +30,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-//	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
+	implementation("com.squareup.okhttp3:okhttp:4.12.+")
 	implementation("com.qiniu:qiniu-java-sdk:7.13.+")
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
 

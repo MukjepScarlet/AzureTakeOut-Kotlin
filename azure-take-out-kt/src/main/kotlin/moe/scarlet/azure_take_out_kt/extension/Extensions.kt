@@ -42,3 +42,6 @@ val MultipartFile.isImage: Boolean
     } catch (e: Exception) {
         false
     }
+
+fun Map<String, Any?>.asURLSearchParams() =
+    this.filterValues { it != null }.toSortedMap().map { (key, value) -> "$key=$value" }.joinToString("&")

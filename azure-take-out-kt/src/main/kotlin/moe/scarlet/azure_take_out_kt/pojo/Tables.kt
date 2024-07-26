@@ -202,7 +202,7 @@ data class ShoppingCart(
 data class User(
     @TableId(type = IdType.AUTO)
     val id: Long,
-    val openid: String?,
+    val openid: String,
     val name: String?,
     val phone: String?,
     val sex: String?,

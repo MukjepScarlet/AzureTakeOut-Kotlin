@@ -96,7 +96,7 @@ class DishServiceImpl(
             throw ExceptionType.DISH_BE_RELATED_BY_SETMEAL.asException()
 
         // 删除对应的口味
-        dishFlavorService.remove(KtQueryWrapper(DishFlavor::class.java).`in`(DishFlavor::id, idList))
+        dishFlavorService.remove(KtQueryWrapper(DishFlavor::class.java).`in`(DishFlavor::dishId, idList))
 
         this.removeByIds(idList)
     }

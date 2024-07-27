@@ -12,7 +12,7 @@ data class AddressBook(
     val id: Long,
     val userId: Long,
     val consignee: String?,
-    val sex: String?,
+    val sex: String,
     val phone: String,
     val provinceCode: String?,
     val provinceName: String?,
@@ -20,7 +20,7 @@ data class AddressBook(
     val cityName: String?,
     val districtCode: String?,
     val districtName: String?,
-    val detail: String?,
+    val detail: String,
     val label: String?,
     val isDefault: Byte = 0
 ) : Serializable

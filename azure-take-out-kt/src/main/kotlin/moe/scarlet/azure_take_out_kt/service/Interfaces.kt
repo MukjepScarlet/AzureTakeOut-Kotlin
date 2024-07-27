@@ -79,3 +79,9 @@ interface ShoppingCartService : IService<ShoppingCart> {
     fun add(shoppingCartDTO: ShoppingCartDTO)
     fun cleanByCurrentUser()
 }
+
+interface AddressBookService : IService<AddressBook> {
+    fun listByCurrentUser(): List<AddressBook>
+    fun getDefaultByCurrentUser(): AddressBook?
+    fun setDefaultByCurrentUser(addressBookDefaultDTO: AddressBookDefaultDTO)
+}

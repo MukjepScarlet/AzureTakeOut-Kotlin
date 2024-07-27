@@ -11,7 +11,7 @@ data class AddressBook(
     @TableId(type = IdType.AUTO)
     val id: Long,
     val userId: Long,
-    val consignee: String?,
+    val consignee: String,
     val sex: String,
     val phone: String,
     val provinceCode: String?,
@@ -23,7 +23,10 @@ data class AddressBook(
     val detail: String,
     val label: String?,
     val isDefault: Byte = 0
-) : Serializable
+) : Serializable {
+    val address: String
+        get() = sequenceOf(provinceName, cityName, districtName, detail).filterNotNull().joinToString("-")
+}
 
 @TableName("category")
 data class Category(
@@ -97,8 +100,8 @@ data class Employee(
 data class OrderDetail(
     @TableId(type = IdType.AUTO)
     val id: Long,
-    val name: String?,
-    val image: String?,
+    val name: String,
+    val image: String,
     val orderId: Long,
     val dishId: Long?,
     val setmealId: Long?,
@@ -111,20 +114,20 @@ data class OrderDetail(
 data class Orders(
     @TableId(type = IdType.AUTO)
     val id: Long,
-    val number: String?,
-    val status: Int = 1,
+    val number: String,
+    val status: Int = Status.PENDING_PAYMENT,
     val userId: Long,
     val addressBookId: Long,
     val orderTime: LocalDateTime,
     val checkoutTime: LocalDateTime?,
     val payMethod: Int = 1,
-    val payStatus: Byte = 0,
+    val payStatus: Byte = PayStatus.UN_PAID,
     val amount: BigDecimal,
-    val remark: String?,
+    val remark: String,
     val phone: String,
-    val address: String?,
-    val userName: String?,
-    val consignee: String?,
+    val address: String,
+    val userName: String,
+    val consignee: String,
     val cancelReason: String?,
     val rejectionReason: String?,
     val cancelTime: LocalDateTime?,
@@ -145,9 +148,9 @@ data class Orders(
     }
 
     object PayStatus {
-        const val UN_PAID = 0
-        const val PAID = 1
-        const val REFUND = 2
+        const val UN_PAID = 0.toByte()
+        const val PAID = 1.toByte()
+        const val REFUND = 2.toByte()
     }
 }
 

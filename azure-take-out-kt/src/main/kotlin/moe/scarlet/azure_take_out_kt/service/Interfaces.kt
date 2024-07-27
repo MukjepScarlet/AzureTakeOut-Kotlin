@@ -69,6 +69,7 @@ interface WorkspaceService {
 }
 
 interface UserService : IService<User> {
+    val currentUserName: String?
     fun getByOpenId(openid: String): User?
     suspend fun login(userDTO: UserDTO): User
 }
@@ -84,4 +85,15 @@ interface AddressBookService : IService<AddressBook> {
     fun listByCurrentUser(): List<AddressBook>
     fun getDefaultByCurrentUser(): AddressBook?
     fun setDefaultByCurrentUser(addressBookDefaultDTO: AddressBookDefaultDTO)
+}
+
+interface OrdersService : IService<Orders> {
+    // user
+    fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
+    // admin
+
+}
+
+interface OrderDetailService : IService<OrderDetail> {
+    fun saveBatch(orderId: Long, shoppingCarts: Collection<ShoppingCart>)
 }

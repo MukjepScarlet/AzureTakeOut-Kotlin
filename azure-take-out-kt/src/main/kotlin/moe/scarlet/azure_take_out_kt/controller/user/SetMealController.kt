@@ -22,13 +22,13 @@ class SetMealController(
     @Operation(summary = "按ID查询套餐")
     @GetMapping("/list")
     @Cacheable(value = ["setmeal"])
-    fun list(categoryId: Long): JsonResult<List<SetMeal>> =
+    fun listByCategoryId(categoryId: Long): JsonResult<List<SetMeal>> =
         JsonResult.success(setMealService.getByCategoryId(categoryId))
 
     @Operation(summary = "按ID查询套餐包含的菜品")
     @GetMapping("/dish/{id}")
     @Cacheable(value = ["setmeal"])
-    fun getById(@PathVariable id: Long): JsonResult<List<SetMealDish>> =
+    fun getDishesById(@PathVariable id: Long): JsonResult<List<SetMealDish>> =
         JsonResult.success(setMealDishService.getBySetMealId(id))
 
 }

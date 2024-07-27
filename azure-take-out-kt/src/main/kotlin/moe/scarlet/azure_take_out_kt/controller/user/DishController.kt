@@ -18,7 +18,7 @@ class DishController(
     @Operation(summary = "按分类查询菜品")
     @GetMapping("/list")
     @Cacheable(value = ["dish"])
-    fun list(categoryId: Long): JsonResult<List<DishWithFlavorsVO>> =
+    fun listWithFlavors(categoryId: Long): JsonResult<List<DishWithFlavorsVO>> =
         JsonResult.success(dishService.listWithFlavors(categoryId))
 
 }

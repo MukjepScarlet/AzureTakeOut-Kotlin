@@ -19,7 +19,7 @@ data class JwtProperties(
     var adminTTL: Long = 0L,
     var adminTokenName: String = "",
     var userSecretKey: String = "",
-    var userTtl: Long = 0L,
+    var userTTL: Long = 0L,
     var userTokenName: String = "",
 )
 

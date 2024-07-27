@@ -23,10 +23,10 @@ class ShoppingCartServiceImpl(
      */
     private val ShoppingCartDTO.wrapper
         get() = KtQueryWrapper(ShoppingCart::class.java)
-                .eq(ShoppingCart::userId, CURRENT_USER_ID!!)
-                .eq(setmealId != null, ShoppingCart::setmealId, setmealId)
-                .eq(dishId != null, ShoppingCart::dishId, dishId)
-                .eq(dishFlavor != null, ShoppingCart::dishFlavor, dishFlavor)
+            .eq(ShoppingCart::userId, CURRENT_USER_ID!!)
+            .eq(setmealId != null, ShoppingCart::setmealId, setmealId)
+            .eq(dishId != null, ShoppingCart::dishId, dishId)
+            .eq(dishFlavor != null, ShoppingCart::dishFlavor, dishFlavor)
 
     override fun sub(shoppingCartDTO: ShoppingCartDTO) {
         this.remove(shoppingCartDTO.wrapper)

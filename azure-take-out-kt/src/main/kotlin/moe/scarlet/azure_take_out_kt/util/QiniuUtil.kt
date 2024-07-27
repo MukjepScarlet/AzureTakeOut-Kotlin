@@ -33,7 +33,7 @@ class QiniuUtil(
             throw ExceptionType.UPLOAD_FAILED.asException()
 
         return try {
-            withContext (Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 val response = uploadManager.put(file.bytes, UUID.randomUUID().toString(), uploadToken)
                 if (response.isOK && response.isJson)
                     response.jsonToMap()["key"] as String

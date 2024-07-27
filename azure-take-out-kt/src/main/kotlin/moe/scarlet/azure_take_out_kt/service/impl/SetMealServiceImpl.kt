@@ -29,6 +29,9 @@ class SetMealServiceImpl(
     override fun countByCategoryId(categoryId: Long) =
         this.count(KtQueryWrapper(SetMeal::class.java).eq(SetMeal::categoryId, categoryId))
 
+    override fun getByCategoryId(categoryId: Long): List<SetMeal> =
+        this.list(KtQueryWrapper(SetMeal::class.java).eq(SetMeal::categoryId, categoryId))
+
     override fun pageQuery(setMealPageQueryDTO: SetMealPageQueryDTO): QueryResult<SetMealVO> {
         val (categoryId, name, page, pageSize, status) = setMealPageQueryDTO
         val result = setMealMapper.selectPage(

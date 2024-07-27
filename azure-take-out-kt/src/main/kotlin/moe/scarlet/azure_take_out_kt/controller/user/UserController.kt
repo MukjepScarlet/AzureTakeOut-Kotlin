@@ -30,8 +30,8 @@ class UserController(
 
         // 创建JWT令牌
         val token: String = JwtUtil.createJWT(
-            jwtProperties.adminSecretKey,
-            jwtProperties.adminTTL,
+            jwtProperties.userSecretKey,
+            jwtProperties.userTTL,
             mapOf(JwtClaimsConstant.USER_ID to id)
         )
 

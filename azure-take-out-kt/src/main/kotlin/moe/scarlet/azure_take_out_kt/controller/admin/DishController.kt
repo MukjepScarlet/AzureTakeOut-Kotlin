@@ -72,7 +72,7 @@ class DishController(
 
     @Operation(summary = "按分类查询菜品")
     @GetMapping("/list")
-    @Cacheable(value = ["dishListCache"])
+    @Cacheable(value = ["dish"])
     fun list(categoryId: Long): JsonResult<List<Dish>> = JsonResult.success(dishService.list(categoryId))
 
 }

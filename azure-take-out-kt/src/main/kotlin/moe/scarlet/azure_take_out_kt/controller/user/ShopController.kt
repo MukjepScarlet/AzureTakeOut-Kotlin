@@ -3,7 +3,9 @@ package moe.scarlet.azure_take_out_kt.controller.user
 import moe.scarlet.azure_take_out_kt.constant.ShopStatus
 import moe.scarlet.azure_take_out_kt.pojo.JsonResult
 import moe.scarlet.azure_take_out_kt.util.RedisUtil
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 
 @RestController("userShopController")

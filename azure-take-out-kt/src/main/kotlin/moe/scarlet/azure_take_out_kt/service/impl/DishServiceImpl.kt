@@ -108,12 +108,20 @@ class DishServiceImpl(
     override fun getByIdWithFlavor(id: Long): DishWithFlavorsVO {
         val (_, name, categoryId, price, image, description, status, _, updateTime) = this.getById(id)
         return DishWithFlavorsVO(
-            categoryId, categoryMapper.getNameById(categoryId), description, dishFlavorService.getByDishId(id),
+            categoryId, categoryMapper.getNameById(categoryId), description, dishFlavorService.listByDishId(id),
             id, image, name, price, status, updateTime!!
         )
     }
 
     override fun list(categoryId: Long): List<Dish> =
         this.list(KtQueryWrapper(Dish::class.java).eq(Dish::categoryId, categoryId))
+
+    override fun listWithFlavors(categoryId: Long): List<DishWithFlavorsVO> =
+        this.list(categoryId).map { (id, name, _, price, image, description, status, _, updateTime) ->
+            DishWithFlavorsVO(
+                categoryId, categoryMapper.getNameById(categoryId), description,
+                dishFlavorService.listByDishId(id), id, image, name, price, status, updateTime!!
+            )
+        }
 
 }

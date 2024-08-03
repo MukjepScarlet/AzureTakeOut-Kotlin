@@ -91,6 +91,7 @@ interface OrdersService : IService<Orders> {
     // user
     fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
     fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO>
+    fun getByIdWithDetails(id: Long): OrderWithDetailsVO
 //    fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
 //    fun paySuccess(outTradeNo: String)
     // admin

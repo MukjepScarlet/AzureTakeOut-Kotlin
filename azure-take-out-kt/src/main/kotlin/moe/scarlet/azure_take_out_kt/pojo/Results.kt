@@ -10,7 +10,7 @@ data class JsonResult<T>(
 ) : Serializable {
     companion object {
         @JvmStatic
-        fun <T> success(data: T? = null) = JsonResult(1, null, data)
+        fun <T : Any> success(data: T? = null) = JsonResult(1, null, data)
 
         @JvmStatic
         fun error(msg: String) = JsonResult(0, msg, null)

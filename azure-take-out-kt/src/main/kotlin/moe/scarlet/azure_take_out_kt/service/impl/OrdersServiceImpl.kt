@@ -80,6 +80,10 @@ class OrdersServiceImpl(
         )
     }
 
+    override fun getByIdWithDetails(id: Long): OrderWithDetailsVO {
+        return this.getById(id).toOrderWithDetailsVO(orderDetailService.listByOrderId(id))
+    }
+
     private fun Orders.toOrderWithDetailsVO(orderDetailList: List<OrderDetail>) = OrderWithDetailsVO(
         id = this.id,
         number = this.number,

@@ -50,13 +50,13 @@ class OrderController(
 //        // TODO
 //        return JsonResult.success()
 //    }
-//
-//    @Operation(summary = "查询订单详情")
-//    @GetMapping("/orderDetail/{id}")
-//    fun detail(@PathVariable id: Long): JsonResult<OrderWithDetailsVO> {
-//        logger.info("查询订单详情: $id")
-//        // TODO
-//    }
+
+    @Operation(summary = "查询订单详情")
+    @GetMapping("/orderDetail/{id}")
+    fun detail(@PathVariable id: Long): JsonResult<OrderWithDetailsVO> {
+        logger.info("查询订单详情: $id")
+        return JsonResult.success(ordersService.getByIdWithDetails(id))
+    }
 
     @Operation(summary = "下单")
     @PostMapping("/submit")

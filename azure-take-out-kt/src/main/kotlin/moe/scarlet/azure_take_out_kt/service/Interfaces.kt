@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService
 import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.*
 import moe.scarlet.azure_take_out_kt.pojo.vo.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface CategoryService : IService<Category> {
@@ -67,6 +68,13 @@ interface WorkspaceService {
     fun overviewSetmeals(): OverviewDishesOrSetMealsVO
     fun overviewDishes(): OverviewDishesOrSetMealsVO
     fun overviewOrders(): OverviewOrdersVO
+}
+
+interface ReportService {
+    fun turnoverStatistics(begin: LocalDate, end: LocalDate): TurnoverReportVO
+    fun userStatistics(begin: LocalDate, end: LocalDate): UserReportVO
+    fun ordersStatistics(begin: LocalDate, end: LocalDate): OrdersReportVO
+    fun top10(begin: LocalDate, end: LocalDate): Top10VO
 }
 
 interface UserService : IService<User> {

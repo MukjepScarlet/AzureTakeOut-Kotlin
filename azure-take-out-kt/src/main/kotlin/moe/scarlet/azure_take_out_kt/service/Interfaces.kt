@@ -89,6 +89,10 @@ interface AddressBookService : IService<AddressBook> {
 
 interface OrdersService : IService<Orders> {
     // user
+    fun reminder(id: Long)
+    fun repeat(id: Long)
+    fun cancel(id: Long)
+    fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
     fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
     fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO>
     fun getByIdWithDetails(id: Long): OrderWithDetailsVO

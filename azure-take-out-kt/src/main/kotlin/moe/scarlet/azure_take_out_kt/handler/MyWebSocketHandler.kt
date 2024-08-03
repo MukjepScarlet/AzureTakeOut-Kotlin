@@ -1,7 +1,10 @@
 package moe.scarlet.azure_take_out_kt.handler
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
 import moe.scarlet.azure_take_out_kt.extension.logger
+import moe.scarlet.azure_take_out_kt.pojo.Orders
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -13,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap
 class MyWebSocketHandler : TextWebSocketHandler() {
 
     private val sessions = ConcurrentHashMap<String, WebSocketSession>()
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     private val WebSocketSession.sid: String
         get() = uri?.path?.split("/")?.last() ?: throw ExceptionType.WEBSOCKET_ERROR.asException()
@@ -35,5 +40,12 @@ class MyWebSocketHandler : TextWebSocketHandler() {
 
     fun broadcast(message: String) =
         sessions.values.filter { it.isOpen }.forEach { it.sendMessage(TextMessage(message)) }
+
+    fun reminder(orders: Orders) =
+        broadcast(json.encodeToString(mapOf(
+            "type" to 2,
+            "orderId" to orders.id,
+            "content" to "订单号: ${orders.number}",
+        )))
 
 }

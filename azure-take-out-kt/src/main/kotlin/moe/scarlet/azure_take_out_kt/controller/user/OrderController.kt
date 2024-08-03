@@ -2,7 +2,6 @@ package moe.scarlet.azure_take_out_kt.controller.user
 
 import io.swagger.v3.oas.annotations.Operation
 import moe.scarlet.azure_take_out_kt.extension.logger
-import moe.scarlet.azure_take_out_kt.mapper.OrdersMapper
 import moe.scarlet.azure_take_out_kt.pojo.JsonResult
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import moe.scarlet.azure_take_out_kt.pojo.dto.OrderHistoryQueryDTO
@@ -20,21 +19,21 @@ class OrderController(
     private val ordersService: OrdersService,
 ) {
 
-//    @Operation(summary = "催单")
-//    @GetMapping("/reminder/{id}")
-//    fun reminder(@PathVariable id: Long): JsonResult<Nothing> {
-//        logger.info("催单: $id")
-//        // TODO
-//        return JsonResult.success()
-//    }
-//
-//    @Operation(summary = "再来一单")
-//    @PostMapping("/repetition/{id}")
-//    fun repetition(@PathVariable id: Long): JsonResult<Nothing> {
-//        logger.info("再来一单: $id")
-//        // TODO
-//        return JsonResult.success()
-//    }
+    @Operation(summary = "催单")
+    @GetMapping("/reminder/{id}")
+    fun reminder(@PathVariable id: Long): JsonResult<Nothing> {
+        logger.info("催单: $id")
+        ordersService.reminder(id)
+        return JsonResult.success()
+    }
+
+    @Operation(summary = "再来一单")
+    @PostMapping("/repetition/{id}")
+    fun repetition(@PathVariable id: Long): JsonResult<Nothing> {
+        logger.info("再来一单: $id")
+        ordersService.repeat(id)
+        return JsonResult.success()
+    }
 
     @Operation(summary = "历史订单查询")
     @GetMapping("/historyOrders")
@@ -42,14 +41,14 @@ class OrderController(
         logger.info("历史订单查询: $orderHistoryQueryDTO")
         return JsonResult.success(ordersService.history(orderHistoryQueryDTO))
     }
-//
-//    @Operation(summary = "取消订单")
-//    @PutMapping("/cancel/{id}")
-//    fun cancel(@PathVariable id: Long): JsonResult<Nothing> {
-//        logger.info("取消订单: $id")
-//        // TODO
-//        return JsonResult.success()
-//    }
+
+    @Operation(summary = "取消订单")
+    @PutMapping("/cancel/{id}")
+    fun cancel(@PathVariable id: Long): JsonResult<Nothing> {
+        logger.info("取消订单: $id")
+        ordersService.cancel(id)
+        return JsonResult.success()
+    }
 
     @Operation(summary = "查询订单详情")
     @GetMapping("/orderDetail/{id}")
@@ -65,11 +64,11 @@ class OrderController(
         return JsonResult.success(ordersService.submit(orderSubmitDTO))
     }
 
-//    @Operation(summary = "订单支付")
-//    @PutMapping("/payment")
-//    fun pay(@RequestBody orderPayDTO: OrderPayDTO): JsonResult<OrderPayVO> {
-//        logger.info("订单支付: $orderPayDTO")
-//        // TODO
-//    }
+    @Operation(summary = "订单支付")
+    @PutMapping("/payment")
+    fun pay(@RequestBody orderPayDTO: OrderPayDTO): JsonResult<OrderPayVO> {
+        logger.info("订单支付: $orderPayDTO")
+        return JsonResult.success(ordersService.pay(orderPayDTO))
+    }
 
 }

@@ -5,12 +5,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.context.CURRENT_USER_ID
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
+import moe.scarlet.azure_take_out_kt.handler.MyWebSocketHandler
 import moe.scarlet.azure_take_out_kt.mapper.OrdersMapper
 import moe.scarlet.azure_take_out_kt.pojo.OrderDetail
 import moe.scarlet.azure_take_out_kt.pojo.Orders
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
+import moe.scarlet.azure_take_out_kt.pojo.ShoppingCart
 import moe.scarlet.azure_take_out_kt.pojo.dto.OrderHistoryQueryDTO
+import moe.scarlet.azure_take_out_kt.pojo.dto.OrderPayDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.OrderSubmitDTO
+import moe.scarlet.azure_take_out_kt.pojo.vo.OrderPayVO
 import moe.scarlet.azure_take_out_kt.pojo.vo.OrderSubmitVO
 import moe.scarlet.azure_take_out_kt.pojo.vo.OrderWithDetailsVO
 import moe.scarlet.azure_take_out_kt.service.*
@@ -24,10 +28,31 @@ class OrdersServiceImpl(
     private val addressBookService: AddressBookService,
     private val shoppingCartService: ShoppingCartService,
     private val orderDetailService: OrderDetailService,
+    private val webSocketHandler: MyWebSocketHandler,
 ) : ServiceImpl<OrdersMapper, Orders>(), OrdersService {
 
     private val number: String
         get() = "$CURRENT_USER_ID@${System.currentTimeMillis()}"
+
+    override fun reminder(id: Long) {
+        webSocketHandler.reminder(this.getById(id) ?: throw ExceptionType.ORDER_NOT_FOUND.asException())
+    }
+
+    override fun repeat(id: Long) {
+        shoppingCartService.saveBatch(
+            orderDetailService.listByOrderId(id).map { (_, name, image, _, dishId, setmealId, dishFlavor, number1, amount) ->
+                ShoppingCart(0L, name, image, CURRENT_USER_ID!!, dishId, setmealId, dishFlavor, number1, amount, null)
+            }
+        )
+    }
+
+    override fun cancel(id: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun pay(orderPayDTO: OrderPayDTO): OrderPayVO {
+        TODO("Not yet implemented")
+    }
 
     override fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO {
         val (addressBookId, payMethod, amount, remark, estimatedDeliveryTime,

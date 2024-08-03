@@ -20,7 +20,8 @@ enum class ExceptionType(val message: String) {
     SETMEAL_ON_SALE("起售中的套餐不能删除"),
     DISH_BE_RELATED_BY_SETMEAL("当前菜品关联了套餐,不能删除"),
     ORDER_STATUS_ERROR("订单状态错误"),
-    ORDER_NOT_FOUND("订单不存在");
+    ORDER_NOT_FOUND("订单不存在"),
+    WEBSOCKET_ERROR("无效的WebSocket请求");
 
     fun asException() = BaseException(this)
 

@@ -90,6 +90,7 @@ interface AddressBookService : IService<AddressBook> {
 interface OrdersService : IService<Orders> {
     // user
     fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
+    fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO>
 //    fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
 //    fun paySuccess(outTradeNo: String)
     // admin
@@ -98,4 +99,5 @@ interface OrdersService : IService<Orders> {
 
 interface OrderDetailService : IService<OrderDetail> {
     fun saveBatch(orderId: Long, shoppingCarts: Collection<ShoppingCart>)
+    fun listByOrderId(orderId: Long): List<OrderDetail>
 }

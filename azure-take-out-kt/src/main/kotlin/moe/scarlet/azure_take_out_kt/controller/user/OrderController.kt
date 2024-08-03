@@ -35,13 +35,13 @@ class OrderController(
 //        // TODO
 //        return JsonResult.success()
 //    }
-//
-//    @Operation(summary = "历史订单查询")
-//    @GetMapping("/historyOrders")
-//    fun history(@RequestBody orderHistoryQueryDTO: OrderHistoryQueryDTO): JsonResult<QueryResult<OrderWithDetailsVO>> {
-//        logger.info("历史订单查询: $orderHistoryQueryDTO")
-//        // TODO
-//    }
+
+    @Operation(summary = "历史订单查询")
+    @GetMapping("/historyOrders")
+    fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): JsonResult<QueryResult<OrderWithDetailsVO>> {
+        logger.info("历史订单查询: $orderHistoryQueryDTO")
+        return JsonResult.success(ordersService.history(orderHistoryQueryDTO))
+    }
 //
 //    @Operation(summary = "取消订单")
 //    @PutMapping("/cancel/{id}")

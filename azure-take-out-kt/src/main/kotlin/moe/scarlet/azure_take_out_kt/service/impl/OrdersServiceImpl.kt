@@ -1,18 +1,25 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
+import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.context.CURRENT_USER_ID
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
 import moe.scarlet.azure_take_out_kt.mapper.OrdersMapper
+import moe.scarlet.azure_take_out_kt.pojo.OrderDetail
 import moe.scarlet.azure_take_out_kt.pojo.Orders
+import moe.scarlet.azure_take_out_kt.pojo.QueryResult
+import moe.scarlet.azure_take_out_kt.pojo.dto.OrderHistoryQueryDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.OrderSubmitDTO
 import moe.scarlet.azure_take_out_kt.pojo.vo.OrderSubmitVO
+import moe.scarlet.azure_take_out_kt.pojo.vo.OrderWithDetailsVO
 import moe.scarlet.azure_take_out_kt.service.*
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
 class OrdersServiceImpl(
+    private val ordersMapper: OrdersMapper,
     private val userService: UserService,
     private val addressBookService: AddressBookService,
     private val shoppingCartService: ShoppingCartService,
@@ -42,7 +49,7 @@ class OrdersServiceImpl(
             Orders.PayStatus.PAID,
 //            Orders.PayStatus.UN_PAID,
             amount, remark, addressBook.phone, addressBook.address,
-            userService.currentUserName!!, addressBook.consignee, null, null, null,
+            userService.currentUserName ?: "", addressBook.consignee, null, null, null,
             estimatedDeliveryTime, deliveryStatus, null, packAmount, tablewareNumber, tablewareStatus
         )
         this.save(orders)
@@ -56,5 +63,49 @@ class OrdersServiceImpl(
         // 返回VO
         return OrderSubmitVO(orders.id, orders.orderTime, orders.number, orders.amount)
     }
+
+    override fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO> {
+        val (page, pageSize, status) = orderHistoryQueryDTO
+        val result = ordersMapper.selectPage(
+            Page(page, pageSize),
+            KtQueryWrapper(Orders::class.java)
+                .eq(status != null, Orders::status, status)
+                .eq(Orders::userId, CURRENT_USER_ID ?: throw ExceptionType.USER_NOT_LOGIN.asException())
+        )
+        return QueryResult(
+            result.total,
+            result.records.map {
+                it.toOrderWithDetailsVO(orderDetailService.listByOrderId(it.id))
+            }
+        )
+    }
+
+    private fun Orders.toOrderWithDetailsVO(orderDetailList: List<OrderDetail>) = OrderWithDetailsVO(
+        id = this.id,
+        number = this.number,
+        status = this.status,
+        userId = this.userId,
+        addressBookId = this.addressBookId,
+        orderTime = this.orderTime,
+        checkoutTime = this.checkoutTime,
+        payMethod = this.payMethod,
+        payStatus = this.payStatus,
+        amount = this.amount,
+        remark = this.remark,
+        phone = this.phone,
+        address = this.address,
+        userName = this.userName,
+        consignee = this.consignee,
+        cancelReason = this.cancelReason,
+        rejectionReason = this.rejectionReason,
+        cancelTime = this.cancelTime,
+        estimatedDeliveryTime = this.estimatedDeliveryTime,
+        deliveryStatus = this.deliveryStatus,
+        deliveryTime = this.deliveryTime,
+        packAmount = this.packAmount,
+        tablewareNumber = this.tablewareNumber,
+        tablewareStatus = this.tablewareStatus,
+        orderDetailList = orderDetailList
+    )
 
 }

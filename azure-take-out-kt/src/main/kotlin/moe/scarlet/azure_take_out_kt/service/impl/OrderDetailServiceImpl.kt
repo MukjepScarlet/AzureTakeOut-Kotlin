@@ -1,5 +1,6 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
+import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.mapper.OrderDetailMapper
 import moe.scarlet.azure_take_out_kt.pojo.OrderDetail
@@ -15,5 +16,8 @@ class OrderDetailServiceImpl : ServiceImpl<OrderDetailMapper, OrderDetail>(), Or
             OrderDetail(0L, it.name, it.image, orderId, it.dishId, it.setmealId, it.dishFlavor, it.number, it.amount)
         })
     }
+
+    override fun listByOrderId(orderId: Long): List<OrderDetail> =
+        this.list(KtQueryWrapper(OrderDetail::class.java).eq(OrderDetail::orderId, orderId))
 
 }

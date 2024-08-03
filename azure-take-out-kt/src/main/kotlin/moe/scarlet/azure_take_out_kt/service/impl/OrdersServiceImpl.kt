@@ -39,7 +39,9 @@ class OrdersServiceImpl(
         val orders = Orders(
             0L, this.number, Orders.Status.PENDING_PAYMENT,
             CURRENT_USER_ID!!, addressBookId, LocalDateTime.now(), null, payMethod,
-            Orders.PayStatus.UN_PAID, amount, remark, addressBook.phone, addressBook.address,
+            Orders.PayStatus.PAID,
+//            Orders.PayStatus.UN_PAID,
+            amount, remark, addressBook.phone, addressBook.address,
             userService.currentUserName!!, addressBook.consignee, null, null, null,
             estimatedDeliveryTime, deliveryStatus, null, packAmount, tablewareNumber, tablewareStatus
         )

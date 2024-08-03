@@ -50,7 +50,7 @@ class OrderController(
 //        // TODO
 //        return JsonResult.success()
 //    }
-// 
+//
 //    @Operation(summary = "查询订单详情")
 //    @GetMapping("/orderDetail/{id}")
 //    fun detail(@PathVariable id: Long): JsonResult<OrderWithDetailsVO> {

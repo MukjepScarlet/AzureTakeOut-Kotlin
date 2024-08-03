@@ -90,6 +90,8 @@ interface AddressBookService : IService<AddressBook> {
 interface OrdersService : IService<Orders> {
     // user
     fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
+//    fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
+//    fun paySuccess(outTradeNo: String)
     // admin
 
 }

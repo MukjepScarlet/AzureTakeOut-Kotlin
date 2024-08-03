@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService
 import moe.scarlet.azure_take_out_kt.pojo.*
 import moe.scarlet.azure_take_out_kt.pojo.dto.*
 import moe.scarlet.azure_take_out_kt.pojo.vo.*
+import java.time.LocalDateTime
 
 interface CategoryService : IService<Category> {
     fun pageQuery(categoryPageQueryDTO: CategoryPageQueryDTO): QueryResult<Category>
@@ -93,13 +94,12 @@ interface OrdersService : IService<Orders> {
     fun repeat(id: Long)
     fun cancel(id: Long)
     fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
+//    fun paySuccess(outTradeNo: String)
     fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
     fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO>
     fun getByIdWithDetails(id: Long): OrderWithDetailsVO
-//    fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
-//    fun paySuccess(outTradeNo: String)
     // admin
-
+    fun listByStatusAndOrderTimeLt(status: Int, orderTime: LocalDateTime): List<Orders>
 }
 
 interface OrderDetailService : IService<OrderDetail> {

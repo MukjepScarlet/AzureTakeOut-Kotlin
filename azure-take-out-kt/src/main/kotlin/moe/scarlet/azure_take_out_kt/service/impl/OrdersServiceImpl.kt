@@ -40,9 +40,21 @@ class OrdersServiceImpl(
 
     override fun repeat(id: Long) {
         shoppingCartService.saveBatch(
-            orderDetailService.listByOrderId(id).map { (_, name, image, _, dishId, setmealId, dishFlavor, number1, amount) ->
-                ShoppingCart(0L, name, image, CURRENT_USER_ID!!, dishId, setmealId, dishFlavor, number1, amount, null)
-            }
+            orderDetailService.listByOrderId(id)
+                .map { (_, name, image, _, dishId, setmealId, dishFlavor, number1, amount) ->
+                    ShoppingCart(
+                        0L,
+                        name,
+                        image,
+                        CURRENT_USER_ID!!,
+                        dishId,
+                        setmealId,
+                        dishFlavor,
+                        number1,
+                        amount,
+                        null
+                    )
+                }
         )
     }
 
@@ -107,6 +119,10 @@ class OrdersServiceImpl(
 
     override fun getByIdWithDetails(id: Long): OrderWithDetailsVO {
         return this.getById(id).toOrderWithDetailsVO(orderDetailService.listByOrderId(id))
+    }
+
+    override fun listByStatusAndOrderTimeLt(status: Int, orderTime: LocalDateTime): List<Orders> {
+        return this.list(KtQueryWrapper(Orders::class.java).eq(Orders::status, status).lt(Orders::orderTime, orderTime))
     }
 
     private fun Orders.toOrderWithDetailsVO(orderDetailList: List<OrderDetail>) = OrderWithDetailsVO(

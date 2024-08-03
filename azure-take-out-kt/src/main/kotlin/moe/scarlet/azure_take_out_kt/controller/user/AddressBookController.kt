@@ -2,7 +2,6 @@ package moe.scarlet.azure_take_out_kt.controller.user
 
 import io.swagger.v3.oas.annotations.Operation
 import moe.scarlet.azure_take_out_kt.context.CURRENT_USER_ID
-import moe.scarlet.azure_take_out_kt.exception.ExceptionType
 import moe.scarlet.azure_take_out_kt.extension.logger
 import moe.scarlet.azure_take_out_kt.pojo.AddressBook
 import moe.scarlet.azure_take_out_kt.pojo.JsonResult

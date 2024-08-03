@@ -1,9 +1,6 @@
 package moe.scarlet.azure_take_out_kt.extension
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.baomidou.mybatisplus.core.metadata.IPage
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

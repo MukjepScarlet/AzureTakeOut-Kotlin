@@ -42,10 +42,14 @@ class MyWebSocketHandler : TextWebSocketHandler() {
         sessions.values.filter { it.isOpen }.forEach { it.sendMessage(TextMessage(message)) }
 
     fun reminder(orders: Orders) =
-        broadcast(json.encodeToString(mapOf(
-            "type" to 2,
-            "orderId" to orders.id,
-            "content" to "订单号: ${orders.number}",
-        )))
+        broadcast(
+            json.encodeToString(
+                mapOf(
+                    "type" to 2,
+                    "orderId" to orders.id,
+                    "content" to "订单号: ${orders.number}",
+                )
+            )
+        )
 
 }

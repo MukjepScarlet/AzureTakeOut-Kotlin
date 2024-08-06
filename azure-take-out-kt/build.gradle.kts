@@ -36,7 +36,8 @@ dependencies {
 	implementation("com.squareup.okhttp3:okhttp:4.12.+")
 	implementation("com.qiniu:qiniu-java-sdk:7.13.+")
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
-//	implementation("com.github.wechatpay-apiv3:wechatpay-java:0.2.12")
+	implementation("com.github.wechatpay-apiv3:wechatpay-java:0.2.12")
+	implementation("org.apache.poi:poi-ooxml:5.2.3")
 
 	runtimeOnly("mysql:mysql-connector-java:8.0.33")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

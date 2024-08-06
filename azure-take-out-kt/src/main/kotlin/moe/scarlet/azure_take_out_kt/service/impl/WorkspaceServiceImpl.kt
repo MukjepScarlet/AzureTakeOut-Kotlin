@@ -28,14 +28,11 @@ class WorkspaceServiceImpl(
     private val ordersMapper: OrdersMapper
 ) : WorkspaceService {
 
-    override fun businessData(): BusinessDataVO {
-        val startOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
-        val endOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MAX)
-
+    override fun businessData(begin: LocalDateTime, end: LocalDateTime): BusinessDataVO {
         val newUsers =
-            userMapper.selectCount(KtQueryWrapper(User::class.java).between(User::createTime, startOfToday, endOfToday))
+            userMapper.selectCount(KtQueryWrapper(User::class.java).between(User::createTime, begin, end))
 
-        return KtQueryWrapper(Orders::class.java).between(Orders::orderTime, startOfToday, endOfToday).let {
+        return KtQueryWrapper(Orders::class.java).between(Orders::orderTime, begin, end).let {
             val totalOrdersCount = ordersMapper.selectCount(it)
             val validOrderCount = ordersMapper.selectCount(it.eq(Orders::status, Orders.Status.COMPLETED))
             val turnover = ordersMapper.selectObjs<Double>(it.select(Orders::amount)).sum()
@@ -45,6 +42,13 @@ class WorkspaceServiceImpl(
 
             BusinessDataVO(newUsers, orderCompletionRate, turnover, unitPrice, validOrderCount)
         }
+    }
+
+    override fun businessData(): BusinessDataVO {
+        val startOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
+        val endOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MAX)
+
+        return this.businessData(startOfToday, endOfToday)
     }
 
     override fun overviewSetmeals() = OverviewDishesOrSetMealsVO(

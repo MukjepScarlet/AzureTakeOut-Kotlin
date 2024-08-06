@@ -64,6 +64,7 @@ interface SetMealDishService : IService<SetMealDish> {
 }
 
 interface WorkspaceService {
+    fun businessData(begin: LocalDateTime, end: LocalDateTime): BusinessDataVO
     fun businessData(): BusinessDataVO
     fun overviewSetmeals(): OverviewDishesOrSetMealsVO
     fun overviewDishes(): OverviewDishesOrSetMealsVO
@@ -75,6 +76,7 @@ interface ReportService {
     fun userStatistics(begin: LocalDate, end: LocalDate): UserReportVO
     fun ordersStatistics(begin: LocalDate, end: LocalDate): OrdersReportVO
     fun top10(begin: LocalDate, end: LocalDate): Top10VO
+    fun export(): ByteArray
 }
 
 interface UserService : IService<User> {

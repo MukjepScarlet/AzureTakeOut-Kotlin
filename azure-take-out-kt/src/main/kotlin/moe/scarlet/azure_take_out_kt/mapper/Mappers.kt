@@ -34,7 +34,7 @@ interface OrderDetailMapper : BaseMapper<OrderDetail> {
         """
         SELECT d.name, SUM(d.number) AS number
         FROM order_detail d
-        JOIN orders o ON d.orderId = o.id
+        JOIN orders o ON d.order_id = o.id
         WHERE o.status = 5
         AND o.order_time BETWEEN #{begin} AND #{end}
         GROUP BY d.name

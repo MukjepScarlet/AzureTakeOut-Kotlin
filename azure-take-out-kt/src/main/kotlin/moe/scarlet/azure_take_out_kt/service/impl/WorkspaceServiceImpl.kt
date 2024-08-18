@@ -1,7 +1,8 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import moe.scarlet.azure_take_out_kt.constant.StatusConstant
+import moe.scarlet.azure_take_out_kt.extension.buildQueryWrapper
+import moe.scarlet.azure_take_out_kt.extension.selectCount
 import moe.scarlet.azure_take_out_kt.mapper.DishMapper
 import moe.scarlet.azure_take_out_kt.mapper.OrdersMapper
 import moe.scarlet.azure_take_out_kt.mapper.SetMealMapper
@@ -29,19 +30,17 @@ class WorkspaceServiceImpl(
 ) : WorkspaceService {
 
     override fun businessData(begin: LocalDateTime, end: LocalDateTime): BusinessDataVO {
-        val newUsers =
-            userMapper.selectCount(KtQueryWrapper(User::class.java).between(User::createTime, begin, end))
-
-        return KtQueryWrapper(Orders::class.java).between(Orders::orderTime, begin, end).let {
-            val totalOrdersCount = ordersMapper.selectCount(it)
-            val validOrderCount = ordersMapper.selectCount(it.eq(Orders::status, Orders.Status.COMPLETED))
-            val turnover = ordersMapper.selectObjs<Double>(it.select(Orders::amount)).sum()
-
-            val orderCompletionRate = if (totalOrdersCount != 0L) validOrderCount.toDouble() / totalOrdersCount else 0.0
-            val unitPrice = if (validOrderCount != 0L) turnover / validOrderCount else 0.0
-
-            BusinessDataVO(newUsers, orderCompletionRate, turnover, unitPrice, validOrderCount)
+        val newUsers = userMapper.selectCount {
+            User::createTime ge begin
+            User::createTime le end
         }
+
+        val (totalOrdersCount, validOrdersCount, turnover) = ordersMapper.orderBusinessData(begin, end)
+
+        val orderCompletionRate = if (totalOrdersCount != 0L) validOrdersCount.toDouble() / totalOrdersCount else 0.0
+        val unitPrice = if (validOrdersCount != 0L) turnover.toDouble() / validOrdersCount else 0.0
+
+        return BusinessDataVO(newUsers, orderCompletionRate, turnover.toDouble(), unitPrice, validOrdersCount)
     }
 
     override fun businessData(): BusinessDataVO {
@@ -52,26 +51,34 @@ class WorkspaceServiceImpl(
     }
 
     override fun overviewSetmeals() = OverviewDishesOrSetMealsVO(
-        setMealMapper.selectCount(KtQueryWrapper(SetMeal::class.java).eq(SetMeal::status, StatusConstant.DISABLE)),
-        setMealMapper.selectCount(KtQueryWrapper(SetMeal::class.java).eq(SetMeal::status, StatusConstant.ENABLE)),
+        setMealMapper.selectCount {
+            SetMeal::status eq StatusConstant.DISABLE
+        },
+        setMealMapper.selectCount {
+            SetMeal::status eq StatusConstant.ENABLE
+        },
     )
 
     override fun overviewDishes() = OverviewDishesOrSetMealsVO(
-        dishMapper.selectCount(KtQueryWrapper(Dish::class.java).eq(Dish::status, StatusConstant.DISABLE)),
-        dishMapper.selectCount(KtQueryWrapper(Dish::class.java).eq(Dish::status, StatusConstant.ENABLE)),
+        dishMapper.selectCount {
+            Dish::status eq StatusConstant.DISABLE
+        },
+        dishMapper.selectCount {
+            Dish::status eq StatusConstant.ENABLE
+        }
     )
 
     override fun overviewOrders(): OverviewOrdersVO {
-        val startOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
-        val endOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MAX)
-
-        return KtQueryWrapper(Orders::class.java).between(Orders::orderTime, startOfToday, endOfToday).let {
+        return buildQueryWrapper<Orders> {
+            Orders::orderTime ge LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
+            Orders::orderTime le LocalDateTime.of(LocalDate.now(), LocalTime.MAX)
+        }.let {
             OverviewOrdersVO(
                 ordersMapper.selectCount(it),
-                ordersMapper.selectCount(it.eq(Orders::status, Orders.Status.CANCELLED)),
-                ordersMapper.selectCount(it.eq(Orders::status, Orders.Status.COMPLETED)),
-                ordersMapper.selectCount(it.eq(Orders::status, Orders.Status.CONFIRMED)),
-                ordersMapper.selectCount(it.eq(Orders::status, Orders.Status.TO_BE_CONFIRMED)),
+                ordersMapper.selectCount(it) { Orders::status eq Orders.Status.CANCELLED },
+                ordersMapper.selectCount(it) { Orders::status eq Orders.Status.COMPLETED },
+                ordersMapper.selectCount(it) { Orders::status eq Orders.Status.CONFIRMED },
+                ordersMapper.selectCount(it) { Orders::status eq Orders.Status.TO_BE_CONFIRMED },
             )
         }
     }

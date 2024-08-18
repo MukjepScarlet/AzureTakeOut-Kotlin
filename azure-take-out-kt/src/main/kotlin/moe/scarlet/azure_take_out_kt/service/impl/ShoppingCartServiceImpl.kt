@@ -1,8 +1,10 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.context.CURRENT_USER_ID
+import moe.scarlet.azure_take_out_kt.extension.buildQueryWrapper
+import moe.scarlet.azure_take_out_kt.extension.delete
+import moe.scarlet.azure_take_out_kt.extension.selectList
 import moe.scarlet.azure_take_out_kt.mapper.ShoppingCartMapper
 import moe.scarlet.azure_take_out_kt.pojo.ShoppingCart
 import moe.scarlet.azure_take_out_kt.pojo.dto.ShoppingCartDTO
@@ -14,6 +16,7 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class ShoppingCartServiceImpl(
+    private val shoppingCartMapper: ShoppingCartMapper,
     private val dishService: DishService,
     private val setMealService: SetMealService
 ) : ServiceImpl<ShoppingCartMapper, ShoppingCart>(), ShoppingCartService {
@@ -22,18 +25,20 @@ class ShoppingCartServiceImpl(
      * 判断当前用户的购物车项目 (0条或1条)
      */
     private val ShoppingCartDTO.wrapper
-        get() = KtQueryWrapper(ShoppingCart::class.java)
-            .eq(ShoppingCart::userId, CURRENT_USER_ID!!)
-            .eq(setmealId != null, ShoppingCart::setmealId, setmealId)
-            .eq(dishId != null, ShoppingCart::dishId, dishId)
-            .eq(dishFlavor != null, ShoppingCart::dishFlavor, dishFlavor)
+        get() = buildQueryWrapper<ShoppingCart> {
+            ShoppingCart::userId eq CURRENT_USER_ID!!
+            (setmealId != null) then ShoppingCart::setmealId eq setmealId
+            (dishId != null) then ShoppingCart::dishId eq dishId
+            (dishFlavor != null) then ShoppingCart::dishFlavor eq dishFlavor
+        }
 
     override fun sub(shoppingCartDTO: ShoppingCartDTO) {
         this.remove(shoppingCartDTO.wrapper)
     }
 
-    override fun listByCurrentUser(): List<ShoppingCart> =
-        this.list(KtQueryWrapper(ShoppingCart::class.java).eq(ShoppingCart::userId, CURRENT_USER_ID!!))
+    override fun listByCurrentUser() = shoppingCartMapper.selectList {
+        ShoppingCart::userId eq CURRENT_USER_ID!!
+    }
 
     override fun add(shoppingCartDTO: ShoppingCartDTO) {
         val (dishFlavor, dishId, setmealId) = shoppingCartDTO
@@ -57,7 +62,9 @@ class ShoppingCartServiceImpl(
     }
 
     override fun cleanByCurrentUser() {
-        this.remove(KtQueryWrapper(ShoppingCart::class.java).eq(ShoppingCart::userId, CURRENT_USER_ID!!))
+        shoppingCartMapper.delete {
+            ShoppingCart::userId eq CURRENT_USER_ID!!
+        }
     }
 
 }

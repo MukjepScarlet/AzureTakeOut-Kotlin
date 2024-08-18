@@ -10,11 +10,8 @@ import moe.scarlet.azure_take_out_kt.pojo.vo.TurnoverReportVO
 import moe.scarlet.azure_take_out_kt.pojo.vo.UserReportVO
 import moe.scarlet.azure_take_out_kt.service.ReportService
 import moe.scarlet.azure_take_out_kt.service.WorkspaceService
-import org.apache.poi.xssf.usermodel.XSSFCell
-import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.core.io.ClassPathResource
-import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
@@ -95,8 +92,10 @@ class ReportServiceImpl(
                 for (i in 0..<30) {
                     val date = begin.plusDays(i.toLong())
                     // 大概用group by更好 但是我不想写了
-                    val current = workspaceService.businessData(LocalDateTime.of(date, LocalTime.MIN),
-                        LocalDateTime.of(date, LocalTime.MAX))
+                    val current = workspaceService.businessData(
+                        LocalDateTime.of(date, LocalTime.MIN),
+                        LocalDateTime.of(date, LocalTime.MAX)
+                    )
                     getRow(i + 7).apply {
                         getCell(1).setCellValue(date)
                         getCell(2).setCellValue(current.turnover)

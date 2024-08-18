@@ -10,7 +10,7 @@ data class ConditionalProperty<T, V>(
     val property: KProperty1<T, V>,
 )
 
-abstract class WrapperContext<T : Any, W : AbstractKtWrapper<T, W>>(open val wrapper: AbstractKtWrapper<T, W>) {
+abstract class WrapperContext<T : Any, W : AbstractKtWrapper<T, W>>(open val wrapper: W) {
     infix fun <V> Boolean.then(property: KProperty1<in T, V>) = ConditionalProperty(this, property)
 
     infix fun <V> ConditionalProperty<in T, V>.eq(value: V?) {
@@ -36,6 +36,39 @@ abstract class WrapperContext<T : Any, W : AbstractKtWrapper<T, W>>(open val wra
     infix fun <V> KProperty1<in T, V>.ne(value: V?) {
         wrapper.ne(this, value)
     }
+
+    infix fun <V> ConditionalProperty<in T, V>.lt(value: V?) {
+        wrapper.lt(condition, property, value)
+    }
+
+    infix fun <V> KProperty1<in T, V>.lt(value: V?) {
+        wrapper.lt(this, value)
+    }
+
+    infix fun <V> ConditionalProperty<in T, V>.le(value: V?) {
+        wrapper.le(condition, property, value)
+    }
+
+    infix fun <V> KProperty1<in T, V>.le(value: V?) {
+        wrapper.le(this, value)
+    }
+
+    infix fun <V> ConditionalProperty<in T, V>.gt(value: V?) {
+        wrapper.gt(condition, property, value)
+    }
+
+    infix fun <V> KProperty1<in T, V>.gt(value: V?) {
+        wrapper.gt(this, value)
+    }
+
+    infix fun <V> ConditionalProperty<in T, V>.ge(value: V?) {
+        wrapper.ge(condition, property, value)
+    }
+
+    infix fun <V> KProperty1<in T, V>.ge(value: V?) {
+        wrapper.ge(this, value)
+    }
+
 }
 
 class QueryWrapperContext<T : Any>(override val wrapper: KtQueryWrapper<T>) :

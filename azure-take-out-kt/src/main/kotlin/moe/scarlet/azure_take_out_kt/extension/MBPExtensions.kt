@@ -5,29 +5,44 @@ import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 
+inline fun <reified T : Any> buildQueryWrapper(
+    wrapper: KtQueryWrapper<T> = KtQueryWrapper(T::class.java),
+    builder: QueryWrapperContext<T>.() -> Unit,
+): KtQueryWrapper<T> = QueryWrapperContext(wrapper).apply(builder).wrapper
+
+inline fun <reified T : Any> buildUpdateWrapper(
+    wrapper: KtUpdateWrapper<T> = KtUpdateWrapper(T::class.java),
+    builder: UpdateWrapperContext<T>.() -> Unit,
+): KtUpdateWrapper<T> = UpdateWrapperContext(wrapper).apply(builder).wrapper
+
 inline fun <reified T : Any> BaseMapper<T>.delete(
     wrapper: KtQueryWrapper<T> = KtQueryWrapper(T::class.java),
     queryBuilder: QueryWrapperContext<T>.() -> Unit
-): Int = this.delete(QueryWrapperContext(wrapper).apply(queryBuilder).wrapper)
+): Int = this.delete(buildQueryWrapper(wrapper, queryBuilder))
 
 inline fun <reified T : Any> BaseMapper<T>.selectOne(
     wrapper: KtQueryWrapper<T> = KtQueryWrapper(T::class.java),
     queryBuilder: QueryWrapperContext<T>.() -> Unit
-): T? = this.selectOne(QueryWrapperContext(wrapper).apply(queryBuilder).wrapper)
+): T? = this.selectOne(buildQueryWrapper(wrapper, queryBuilder))
+
+inline fun <reified T : Any> BaseMapper<T>.selectCount(
+    wrapper: KtQueryWrapper<T> = KtQueryWrapper(T::class.java),
+    queryBuilder: QueryWrapperContext<T>.() -> Unit
+): Long = this.selectCount(buildQueryWrapper(wrapper, queryBuilder))
 
 inline fun <reified T : Any> BaseMapper<T>.selectList(
     wrapper: KtQueryWrapper<T> = KtQueryWrapper(T::class.java),
     queryBuilder: QueryWrapperContext<T>.() -> Unit
-): List<T> = this.selectList(QueryWrapperContext(wrapper).apply(queryBuilder).wrapper)
+): List<T> = this.selectList(buildQueryWrapper(wrapper, queryBuilder))
 
 inline fun <reified T : Any> BaseMapper<T>.selectPage(
     page: Long,
     pageSize: Long,
     wrapper: KtQueryWrapper<T> = KtQueryWrapper(T::class.java),
     queryBuilder: QueryWrapperContext<T>.() -> Unit
-): Page<T> = this.selectPage(Page(page, pageSize), QueryWrapperContext(wrapper).apply(queryBuilder).wrapper)
+): Page<T> = this.selectPage(Page(page, pageSize), buildQueryWrapper(wrapper, queryBuilder))
 
 inline fun <reified T : Any> BaseMapper<T>.update(
     wrapper: KtUpdateWrapper<T> = KtUpdateWrapper(T::class.java),
     queryBuilder: UpdateWrapperContext<T>.() -> Unit
-): Int = this.update(UpdateWrapperContext(wrapper).apply(queryBuilder).wrapper)
+): Int = this.update(buildUpdateWrapper(wrapper, queryBuilder))

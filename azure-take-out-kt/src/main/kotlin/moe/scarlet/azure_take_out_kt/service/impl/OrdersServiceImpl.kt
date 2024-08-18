@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.context.CURRENT_USER_ID
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
+import moe.scarlet.azure_take_out_kt.extension.selectList
 import moe.scarlet.azure_take_out_kt.handler.MyWebSocketHandler
 import moe.scarlet.azure_take_out_kt.mapper.OrdersMapper
 import moe.scarlet.azure_take_out_kt.pojo.OrderDetail
@@ -101,6 +102,7 @@ class OrdersServiceImpl(
         return OrderSubmitVO(orders.id, orders.orderTime, orders.number, orders.amount)
     }
 
+    // TODO: JOIN
     override fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO> {
         val (page, pageSize, status) = orderHistoryQueryDTO
         val result = ordersMapper.selectPage(
@@ -121,8 +123,9 @@ class OrdersServiceImpl(
         return this.getById(id).toOrderWithDetailsVO(orderDetailService.listByOrderId(id))
     }
 
-    override fun listByStatusAndOrderTimeLt(status: Int, orderTime: LocalDateTime): List<Orders> {
-        return this.list(KtQueryWrapper(Orders::class.java).eq(Orders::status, status).lt(Orders::orderTime, orderTime))
+    override fun listByStatusAndOrderTimeLt(status: Int, orderTime: LocalDateTime) = ordersMapper.selectList {
+        Orders::status eq status
+        Orders::orderTime eq orderTime
     }
 
     private fun Orders.toOrderWithDetailsVO(orderDetailList: List<OrderDetail>) = OrderWithDetailsVO(

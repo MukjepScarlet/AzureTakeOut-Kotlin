@@ -104,10 +104,12 @@ interface OrdersService : IService<Orders> {
     fun repeat(id: Long)
     fun cancel(id: Long)
     fun pay(orderPayDTO: OrderPayDTO): OrderPayVO
-//    fun paySuccess(outTradeNo: String)
+
+    //    fun paySuccess(outTradeNo: String)
     fun submit(orderSubmitDTO: OrderSubmitDTO): OrderSubmitVO
     fun history(orderHistoryQueryDTO: OrderHistoryQueryDTO): QueryResult<OrderWithDetailsVO>
     fun getByIdWithDetails(id: Long): OrderWithDetailsVO
+
     // admin
     fun listByStatusAndOrderTimeLt(status: Int, orderTime: LocalDateTime): List<Orders>
 }

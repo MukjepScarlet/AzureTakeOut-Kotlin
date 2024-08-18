@@ -2,13 +2,11 @@ package moe.scarlet.azure_take_out_kt.mapper
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import moe.scarlet.azure_take_out_kt.pojo.*
-import moe.scarlet.azure_take_out_kt.pojo.dto.OrdersReportDTO
-import moe.scarlet.azure_take_out_kt.pojo.dto.Top10DTO
-import moe.scarlet.azure_take_out_kt.pojo.dto.TurnoverReportDTO
-import moe.scarlet.azure_take_out_kt.pojo.dto.UserReportDTO
+import moe.scarlet.azure_take_out_kt.pojo.dto.*
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Mapper
 interface AddressBookMapper : BaseMapper<AddressBook>
@@ -50,6 +48,21 @@ interface OrderDetailMapper : BaseMapper<OrderDetail> {
 
 @Mapper
 interface OrdersMapper : BaseMapper<Orders> {
+    @Select(
+        """
+        SELECT
+        COUNT(*) as total_orders_count,
+        COUNT(CASE WHEN status = 5 THEN 1 END) as valid_orders_count,
+        IFNULL(SUM(amount), 0) as turnover
+        FROM orders o
+        WHERE order_time BETWEEN #{begin} AND #{end}
+        """
+    )
+    fun orderBusinessData(
+        begin: LocalDateTime,
+        end: LocalDateTime,
+    ): OrdersBusinessDataDTO
+
     @Select(
         """
         SELECT DATE(order_time) AS order_date, SUM(amount) AS total_amount

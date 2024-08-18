@@ -1,11 +1,13 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
-import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
+import moe.scarlet.azure_take_out_kt.extension.selectCount
+import moe.scarlet.azure_take_out_kt.extension.selectList
+import moe.scarlet.azure_take_out_kt.extension.update
 import moe.scarlet.azure_take_out_kt.mapper.CategoryMapper
 import moe.scarlet.azure_take_out_kt.mapper.SetMealMapper
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
@@ -26,12 +28,15 @@ class SetMealServiceImpl(
     private val categoryMapper: CategoryMapper
 ) : ServiceImpl<SetMealMapper, SetMeal>(), SetMealService {
 
-    override fun countByCategoryId(categoryId: Long) =
-        this.count(KtQueryWrapper(SetMeal::class.java).eq(SetMeal::categoryId, categoryId))
+    override fun countByCategoryId(categoryId: Long) = setMealMapper.selectCount {
+        SetMeal::categoryId eq categoryId
+    }
 
-    override fun getByCategoryId(categoryId: Long): List<SetMeal> =
-        this.list(KtQueryWrapper(SetMeal::class.java).eq(SetMeal::categoryId, categoryId))
+    override fun getByCategoryId(categoryId: Long) = setMealMapper.selectList {
+        SetMeal::categoryId eq categoryId
+    }
 
+    // TODO: JOIN
     override fun pageQuery(setMealPageQueryDTO: SetMealPageQueryDTO): QueryResult<SetMealVO> {
         val (categoryId, name, page, pageSize, status) = setMealPageQueryDTO
         val result = setMealMapper.selectPage(
@@ -60,7 +65,10 @@ class SetMealServiceImpl(
     }
 
     override fun status(status: Int, id: Long) {
-        this.update(KtUpdateWrapper(SetMeal::class.java).eq(SetMeal::id, id).set(SetMeal::status, status))
+        setMealMapper.update {
+            SetMeal::id eq id
+            SetMeal::status eq status
+        }
     }
 
     override fun save(setMealDTO: SetMealDTO) {

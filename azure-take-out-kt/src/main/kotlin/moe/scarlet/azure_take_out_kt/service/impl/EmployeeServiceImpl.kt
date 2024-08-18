@@ -1,15 +1,11 @@
 package moe.scarlet.azure_take_out_kt.service.impl
 
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
-import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import moe.scarlet.azure_take_out_kt.constant.PasswordConstant
 import moe.scarlet.azure_take_out_kt.constant.StatusConstant
 import moe.scarlet.azure_take_out_kt.context.CURRENT_EMPLOYEE_ID
 import moe.scarlet.azure_take_out_kt.exception.ExceptionType
-import moe.scarlet.azure_take_out_kt.extension.asQueryResult
-import moe.scarlet.azure_take_out_kt.extension.toMD5
+import moe.scarlet.azure_take_out_kt.extension.*
 import moe.scarlet.azure_take_out_kt.mapper.EmployeeMapper
 import moe.scarlet.azure_take_out_kt.pojo.Employee
 import moe.scarlet.azure_take_out_kt.pojo.QueryResult
@@ -19,15 +15,15 @@ import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeeLoginDTO
 import moe.scarlet.azure_take_out_kt.pojo.dto.EmployeePageQueryDTO
 import moe.scarlet.azure_take_out_kt.service.EmployeeService
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class EmployeeServiceImpl(
     private val employeeMapper: EmployeeMapper
 ) : ServiceImpl<EmployeeMapper, Employee>(), EmployeeService {
 
-    override fun getByUsername(username: String): Employee? =
-        this.getOneOpt(KtQueryWrapper(Employee::class.java).eq(Employee::username, username)).getOrNull()
+    override fun getByUsername(username: String) = employeeMapper.selectOne {
+        Employee::username eq username
+    }
 
     override fun login(employeeLoginDTO: EmployeeLoginDTO): Employee {
         val (username, password) = employeeLoginDTO
@@ -67,15 +63,17 @@ class EmployeeServiceImpl(
 
     override fun pageQuery(employeePageQueryDTO: EmployeePageQueryDTO): QueryResult<Employee> {
         val (name, page, pageSize) = employeePageQueryDTO
-        return employeeMapper.selectPage(
-            Page(page, pageSize),
-            KtQueryWrapper(Employee::class.java).like(!name.isNullOrEmpty(), Employee::name, name)
-        ).asQueryResult()
+        return employeeMapper.selectPage(page, pageSize) {
+            !name.isNullOrEmpty() then Employee::name like name
+        }.asQueryResult()
     }
 
     override fun status(status: Int, id: Long) {
         // 前端已经检测了账号是否存在
-        this.update(KtUpdateWrapper(Employee::class.java).eq(Employee::id, id).set(Employee::status, status))
+        employeeMapper.update {
+            Employee::id eq id
+            Employee::status eq status
+        }
     }
 
     override fun update(employeeDTO: EmployeeDTO) {
